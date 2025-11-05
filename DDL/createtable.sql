@@ -59,6 +59,12 @@ DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS authorites;
 
 
+DROP TABLE IF EXISTS `diary`;
+DROP TABLE IF EXISTS `diary_file`;
+DROP TABLE IF EXISTS `qna`;
+DROP TABLE IF EXISTS `qna_comment`;
+DROP TABLE IF EXISTS `calender`;
+
 -- ----------------------------
 -- 테이블 생성 (참조 순서)
 -- ----------------------------
@@ -573,6 +579,73 @@ CREATE TABLE IF NOT EXISTS black_list (
 	PRIMARY KEY (member_id)
 ) ENGINE=InnoDB;
 
+/* DIARY 테이블 */
+
+CREATE TABLE `diary` (
+                         `id` INT NOT NULL AUTO_INCREMENT,
+                         `day` DATETIME NOT NULL,
+                         `weight` INT NOT NULL,
+                         `mood` ENUM('아주좋음', '좋음', '보통', '나쁨', '아주나쁨'),
+                         `condition` VARCHAR(255) NOT NULL,
+                         `memo` VARCHAR(500) NOT NULL,
+                         `member_id` BIGINT NOT NULL,
+                         CONSTRAINT `pk_diary` PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='일기';
+
+
+/* DIARY_FILE 테이블 */
+
+CREATE TABLE `diary_file` (
+                              `id` INT NOT NULL AUTO_INCREMENT,
+                              `mime` VARCHAR(255) NOT NULL,
+                              `path` VARCHAR(255) NOT NULL,
+                              `created_at` DATETIME NOT NULL,
+                              `state` VARCHAR(255) NOT NULL,
+                              `original_file` VARCHAR(255) NOT NULL,
+                              `rename` INT NOT NULL,
+                              `diary_id` INT NOT NULL,
+                              `extend_file_path_id` BIGINT NOT NULL,
+                              CONSTRAINT `pk_diary_file` PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='일기 파일 업로드';
+
+
+/* QNA 테이블 */
+
+CREATE TABLE `qna` (
+                       `id` BIGINT NOT NULL AUTO_INCREMENT,
+                       `title` VARCHAR(255) NOT NULL,
+                       `contents` VARCHAR(500) NOT NULL,
+                       `created_at` DATETIME NOT NULL,
+                       `member_id` BIGINT NOT NULL,
+                       CONSTRAINT `pk_qna` PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='문의사항 게시글';
+
+
+/* QNA_COMMENT 테이블 */
+
+CREATE TABLE `qna_comment` (
+                               `id` BIGINT NOT NULL AUTO_INCREMENT,
+                               `comment` VARCHAR(500) NOT NULL,
+                               `created_at` DATETIME NOT NULL,
+                               `qna_id` BIGINT NOT NULL,
+                               `member_id` BIGINT NOT NULL,
+                               `parent_comment_id` BIGINT NULL,
+                               CONSTRAINT `pk_qna_comment` PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='문의사항 댓글';
+
+
+/* CALENDER 테이블 */
+
+CREATE TABLE `calender` (
+                            `id` BIGINT NOT NULL AUTO_INCREMENT,
+                            `cal_day` DATETIME NOT NULL,
+                            `badge_count` INT NOT NULL,
+                            `exercise_status` INT NOT NULL DEFAULT 0,
+                            `meal_status` INT NOT NULL DEFAULT 0,
+                            `diary_status` INT NOT NULL DEFAULT 0,
+                            `member_id` BIGINT NOT NULL DEFAULT 0,
+                            CONSTRAINT `pk_calender` PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='캘린더';
 
 -- ----------------------------
 -- Foreign Key 제약 조건 추가
@@ -611,3 +684,86 @@ ALTER TABLE black_list ADD CONSTRAINT FK_member_TO_black_list_1 FOREIGN KEY (
 REFERENCES member (
 	id
 );
+
+ALTER TABLE diary_file add CONSTRAINT `fk_diary_to_diary_file_1` FOREIGN KEY (`diary_id`) REFERENCES `diary` (`id`);
+
+ALTER TABLE diary_file add CONSTRAINT `fk_extend_file_path_to_diary_file_1` FOREIGN KEY (`extend_file_path_id`) REFERENCES `extend_file_path` (`id`);
+
+ALTER TABLE qna_comment add CONSTRAINT `fk_qna_to_qna_comment_1` FOREIGN KEY (`qna_id`) REFERENCES `qna` (`id`);
+
+ALTER TABLE qna_comment add CONSTRAINT `fk_member_to_qna_comment_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
+
+ALTER TABLE qna_comment add CONSTRAINT `fk_qna_comment_to_qna_comment_1` FOREIGN KEY (`parent_comment_id`) REFERENCES `qna_comment` (`id`);
+
+ALTER TABLE calender add CONSTRAINT `fk_member_to_calender_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
+
+ALTER TABLE qna add CONSTRAINT `fk_member_to_qna_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
+
+ALTER TABLE diary add CONSTRAINT `fk_member_to_diary_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
+
+
+
+
+INSERT INTO `diary` (`day`, `weight`, `mood`, `condition`, `memo`, `member_id`) VALUES
+('2025-11-01', 70, '좋음', '컨디션 양호', '오늘은 아침 일찍 일어나서 산책을 다녀왔다. 공기가 차가웠지만 상쾌해서 하루를 기분 좋게 시작할 수 있었다. 점심에는 가벼운 샐러드를 먹고 오후에는 책을 읽으며 여유로운 시간을 보냈다.', 1),
+('2025-11-02', 69, '보통', '피곤함', '주말이라 늦잠을 잤다. 전날 늦게까지 영화를 봐서인지 하루 종일 조금 피곤했다. 오후에는 커피를 마시며 잠을 쫓았고, 저녁에는 간단히 파스타를 해먹었다. 특별한 일은 없지만 평범한 하루였다.', 1),
+('2025-11-03', 68, '아주좋음', '최상', '출근길에 하늘이 유난히 맑았다. 일도 잘 풀리고 팀원들과의 회의도 순조로웠다. 저녁에는 오랜만에 친구를 만나 즐겁게 수다를 떨었다. 모든 게 잘 흘러가는 하루라 행복하다.', 2),
+('2025-11-04', 70, '나쁨', '두통', '아침부터 머리가 아팠다. 잠을 충분히 못 잔 탓인 것 같다. 커피를 마셔도 별로 나아지지 않았다. 일을 하다가 집중이 잘 안 돼서 조퇴하고 집에 돌아와 푹 쉬었다.', 3),
+('2025-11-05', 71, '보통', '보통', '오늘은 특별한 감정 없이 그냥 평범한 하루였다. 회사에서 일하고 점심에는 동료들과 식당에 다녀왔다. 저녁에는 집에서 드라마를 보며 시간을 보냈다.', 2),
+('2025-11-06', 69, '좋음', '활기참', '아침에 일어나자마자 운동을 했다. 땀을 흘리니 기분이 상쾌했다. 점심엔 샐러드와 닭가슴살을 먹었고, 오후에는 프로젝트 진행 상황을 점검했다. 하루를 잘 마무리했다.', 4),
+('2025-11-07', 70, '아주좋음', '매우 좋음', '오늘은 기다리던 여행을 다녀왔다. 바다를 보며 걷는 동안 마음이 한결 편안해졌다. 날씨도 완벽했고, 사진도 많이 찍었다. 행복한 기억으로 남을 하루였다.', 5),
+('2025-11-08', 68, '보통', '괜찮음', '주말이라 집에서 푹 쉬었다. 밀린 빨래를 하고, 방 청소도 했다. 저녁에는 따뜻한 차를 마시며 독서를 했다. 조용하지만 만족스러운 하루였다.', 3),
+('2025-11-09', 67, '좋음', '건강함', '오늘은 간헐적 단식을 유지하며 가벼운 요가를 했다. 몸이 훨씬 가벼워진 느낌이다. 저녁에는 가족들과 함께 식사하면서 이런저런 이야기를 나눴다.', 6),
+('2025-11-10', 70, '아주나쁨', '매우 피곤', '야근이 길어져서 집에 돌아온 게 새벽이었다. 피곤해서 저녁도 거르고 바로 잠들었다. 몸이 무겁고 정신도 흐릿하다. 내일은 꼭 일찍 퇴근해야겠다.', 1);
+
+
+INSERT INTO `diary_file` (`mime`, `path`, `created_at`, `state`, `original_file`, `rename`, `diary_id`, `extend_file_path_id`) VALUES
+('image/png', '/uploads/diary/1.png', '2025-11-01 10:00:00', 'active', '1.png', 1001, 1, 1),
+('image/jpg', '/uploads/diary/2.jpg', '2025-11-02 09:00:00', 'active', '2.jpg', 1002, 2, 1),
+('image/png', '/uploads/diary/3.png', '2025-11-03 08:30:00', 'active', '3.png', 1003, 3, 2),
+('image/jpg', '/uploads/diary/4.jpg', '2025-11-04 11:00:00', 'inactive', '4.jpg', 1004, 4, 3),
+('image/png', '/uploads/diary/5.png', '2025-11-05 10:30:00', 'active', '5.png', 1005, 5, 2),
+('image/jpg', '/uploads/diary/6.jpg', '2025-11-06 09:10:00', 'deleted', '6.jpg', 1006, 6, 3),
+('image/png', '/uploads/diary/7.png', '2025-11-07 13:00:00', 'active', '7.png', 1007, 7, 1),
+('image/png', '/uploads/diary/8.png', '2025-11-08 15:45:00', 'active', '8.png', 1008, 8, 1),
+('image/jpg', '/uploads/diary/9.jpg', '2025-11-09 09:25:00', 'active', '9.jpg', 1009, 9, 3),
+('image/png', '/uploads/diary/10.png', '2025-11-10 22:15:00', 'active', '10.png', 1010, 10, 2);
+
+
+INSERT INTO `qna` (`title`, `contents`, `created_at`, `member_id`) VALUES
+('운동 루틴 추천', '체지방 감량에 좋은 루틴이 있을까요?', '2025-11-01 10:00:00', 1),
+('단백질 섭취량', '운동 후 단백질 섭취량은 어느 정도가 적당한가요?', '2025-11-02 09:00:00', 2),
+('다이어트 정체기', '체중이 줄지 않을 때 어떻게 해야 할까요?', '2025-11-03 08:30:00', 3),
+('헬스장 추천', '서울 강남 근처 좋은 헬스장 추천 부탁드려요.', '2025-11-04 12:00:00', 4),
+('아침 식사 중요성', '아침을 꼭 먹어야 하나요?', '2025-11-05 07:45:00', 5),
+('근육통 완화', '운동 후 근육통 줄이는 법 알려주세요.', '2025-11-06 11:10:00', 2),
+('유산소 시간', '하루 유산소는 몇 분이 좋을까요?', '2025-11-07 14:20:00', 3),
+('체중계 정확도', '체중계가 자꾸 다르게 나와요.', '2025-11-08 15:00:00', 6),
+('식단 관리 앱 추천', '좋은 식단 관리 앱 있을까요?', '2025-11-09 09:45:00', 4),
+('수면과 다이어트', '수면 부족이 체중 감량에 영향이 있나요?', '2025-11-10 23:30:00', 5);
+
+
+INSERT INTO `qna_comment` (`comment`, `created_at`, `qna_id`, `member_id`, `parent_comment_id`) VALUES
+('좋은 질문이에요! 저도 궁금했어요.', '2025-11-01 11:00:00', 1, 2, NULL),
+('단백질은 체중×1.6g 정도 추천드려요.', '2025-11-02 10:00:00', 2, 3, NULL),
+('저는 아침을 꼭 챙겨먹어요!', '2025-11-05 08:00:00', 5, 4, NULL),
+('운동 후 스트레칭 꼭 하세요.', '2025-11-06 12:00:00', 6, 5, NULL),
+('체중계 브랜드마다 조금 달라요.', '2025-11-08 15:30:00', 8, 1, NULL),
+('정체기면 식단을 바꿔보세요.', '2025-11-03 09:00:00', 3, 2, NULL),
+('좋은 헬스장 많아요! PM헬스 추천', '2025-11-04 13:00:00', 4, 3, NULL),
+('저도 같은 고민이에요 ㅠㅠ', '2025-11-09 10:00:00', 9, 4, NULL),
+('잠 부족하면 코르티솔 올라갑니다.', '2025-11-10 23:45:00', 10, 5, NULL),
+('위 댓글에 동의합니다!', '2025-11-02 10:30:00', 2, 6, 2);
+
+
+INSERT INTO `calender` (`cal_day`, `badge_count`, `exercise_status`, `meal_status`, `diary_status`, `member_id`) VALUES
+('2025-11-01', 3, 1, 1, 1, 1),
+('2025-11-02', 2, 0, 1, 1, 1),
+('2025-11-03', 4, 1, 1, 1, 2),
+('2025-11-04', 1, 0, 1, 0, 3),
+('2025-11-05', 3, 1, 1, 1, 4),
+('2025-11-06', 2, 1, 0, 1, 2),
+('2025-11-07', 5, 1, 1, 1, 5),
+('2025-11-08', 1, 0, 0, 1, 3),
+('2025-11-09', 3, 1, 1, 0, 6),
+('2025-11-10', 4, 1, 1, 1, 1);
