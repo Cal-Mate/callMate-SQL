@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS post_comment (
 	create_at	DATETIME	NOT NULL	DEFAULT CURRENT_TIMESTAMP,
 	post_id	INT	NOT NULL,
 	member_id	INT	NOT NULL,
-	member_parent_comment_id	INT	NOT NULL,
+	member_parent_comment_id	INT	NULL,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -767,3 +767,96 @@ INSERT INTO `calender` (`cal_day`, `badge_count`, `exercise_status`, `meal_statu
 ('2025-11-08', 1, 0, 0, 1, 3),
 ('2025-11-09', 3, 1, 1, 0, 6),
 ('2025-11-10', 4, 1, 1, 1, 1);
+
+
+-- '전체'는 필터조건없이 불러오면되고, '내글'은 자신의 회원번호와 게시물번호로 불러오면 됨.
+INSERT INTO tag (name) VALUES
+                               ('운동'),
+                               ('식단'),
+                               ('Before&After'),
+                               ('자유게시판');
+
+
+INSERT INTO post (title, content, member_id, tag_id) VALUES
+                                                                   ('오늘 하체 찢고 왔다', '레그데이 난이도 상🔥', 1, 1),
+                                                                   ('단백질 샐러드 추천', '닭가슴살+아보카도 조합 미쳤다', 2, 2),
+                                                                   ('다이어트 2주차 변화', '턱선 생김 ㄹㅇ', 3, 3),
+                                                                   ('운동 자극 사진 모음', '같이 자극받고 가요 💪', 4, 1),
+                                                                   ('식단 슬럼프 왔다ㅠ', '이제 먹을 게 없다', 5, 2),
+                                                                   ('나 오늘 PT 시작함', '지켜봐주세요!!', 1, 1),
+                                                                   ('저녁 식단 공유', '고구마+계란+샐러드', 2, 2),
+                                                                   ('다이어트 실패함..', '다시 처음부터 간다', 3, 3),
+                                                                   ('오늘 헬스장 사람 미쳤음', '기다리다가 운동 못함', 4, 1),
+                                                                   ('잡담) 날씨 너무 좋음', '뛰기 딱 좋다', 5, 4);
+
+
+INSERT INTO post_like (post_id, member_id) VALUES
+                                               (1, 2),
+                                               (1, 3),
+                                               (2, 1),
+                                               (3, 4),
+                                               (4, 2),
+                                               (5, 3),
+                                               (6, 5),
+                                               (7, 4),
+                                               (8, 1),
+                                               (9, 2);
+
+
+-- 일반 댓글 (1~6)
+INSERT INTO post_comment (content, post_id, member_id) VALUES
+                                                                ('자극받고 갑니다🔥', 1, 4),   -- comment_id = 1
+                                                                ('진짜 맛있어 보이네요', 2, 5), -- 2
+                                                                ('대단합니다...', 3, 1),       -- 3
+                                                                ('사진 공유좀요!', 4, 2),     -- 4
+                                                                ('식단 너무 공감...', 5, 3),   -- 5
+                                                                ('화이팅 해요!', 6, 4);       -- 6
+
+-- 대댓글 (7~10)
+INSERT INTO post_comment (content, post_id, member_id, member_parent_comment_id) VALUES
+                                                                                   ('감사합니다 🙏', 1, 1, 1),   -- 7
+                                                                                   ('저도 해볼게요!', 2, 2, 2), -- 8
+                                                                                   ('저도 같은 상황입니다', 3, 5, 3), -- 9
+                                                                                   ('같이 힘냅시다 💪', 6, 3, 6); -- 10
+
+
+INSERT INTO comment_like (post_comment_id, member_id) VALUES
+                                                     (1, 2),
+                                                     (1, 3),
+                                                     (2, 1),
+                                                     (3, 4),
+                                                     (4, 5),
+                                                     (5, 1),
+                                                     (6, 2),
+                                                     (7, 5),
+                                                     (8, 4),
+                                                     (9, 3);
+
+
+INSERT INTO post_file (name, url, mime_type, path, state, re_name, post_id,extend_fild_path_id)
+VALUES
+    ('post1.jpg', '/upload/post1.jpg', 'image/jpeg', '/var/upload/post1.jpg', 'ACTIVE', 'p1.jpg', 1,5),
+    ('post2.jpg', '/upload/post2.jpg', 'image/jpeg', '/var/upload/post2.jpg', 'ACTIVE', 'p2.jpg', 2,6),
+    ('post3.jpg', '/upload/post3.jpg', 'image/jpeg', '/var/upload/post3.jpg', 'ACTIVE', 'p3.jpg', 3,7),
+    ('post4.jpg', '/upload/post4.jpg', 'image/jpeg', '/var/upload/post4.jpg', 'ACTIVE', 'p4.jpg', 4,8),
+    ('post5.jpg', '/upload/post5.jpg', 'image/jpeg', '/var/upload/post5.jpg', 'ACTIVE', 'p5.jpg', 5,9),
+    ('post6.jpg', '/upload/post6.jpg', 'image/jpeg', '/var/upload/post6.jpg', 'ACTIVE', 'p6.jpg', 6,11),
+    ('post7.jpg', '/upload/post7.jpg', 'image/jpeg', '/var/upload/post7.jpg', 'ACTIVE', 'p7.jpg', 7,12),
+    ('post8.jpg', '/upload/post8.jpg', 'image/jpeg', '/var/upload/post8.jpg', 'ACTIVE', 'p8.jpg', 8,16),
+    ('post9.jpg', '/upload/post9.jpg', 'image/jpeg', '/var/upload/post9.jpg', 'ACTIVE', 'p9.jpg', 9,17),
+    ('post10.jpg', '/upload/post10.jpg', 'image/jpeg', '/var/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,18);
+
+
+-- 수정해야 할수도 있음
+INSERT INTO post_tag (name, post_id) VALUES
+                                                  ('#레그데이', 1),
+                                                  ('#샐러드맛집', 2),
+                                                  ('#다이어트중', 3),
+                                                  ('#운동자극', 4),
+                                                  ('#식단고민', 5),
+                                                  ('#PT일지', 6),
+                                                  ('#저녁식dm_room단', 7),
+                                                  ('#멘탈회복', 8),
+                                                  ('#헬스장지옥', 9),
+                                                  ('#일상', 10);
+
