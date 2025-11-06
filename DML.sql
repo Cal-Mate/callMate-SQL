@@ -2,12 +2,67 @@
 
 
 
+
 -- '전체'는 필터조건없이 불러오면되고, '내글'은 자신의 회원번호와 게시물번호로 불러오면 됨.
 INSERT INTO tag (name) VALUES
                            ('운동'),
                            ('식단'),
                            ('Before&After'),
                            ('자유게시판');
+
+
+INSERT INTO authorites (
+    authurity, description
+)
+VALUES
+    ('ROLE_ADMIN', '시스템 관리 권한 — 모든 회원 관리 및 설정 변경 가능'),
+    ('ROLE_MEMBER', '일반 사용자 권한 — 서비스 이용 및 기본 기능 접근 가능');
+
+
+INSERT INTO member_status (
+    STATUS
+)
+VALUES
+    ('정상'),
+    ('탈퇴'),
+    ('정지'),
+    ('휴먼상태'),
+    ('블랙리스트');
+
+INSERT INTO member_rank(
+    NAME , badge_count )
+VALUES
+    ('새싹이',0),
+    ('튼튼이',20),
+    ('헬린이',50);
+
+
+INSERT INTO member (
+    name, nickname, email, pw, phone, gender, birth, height, weight, body_metric, point,
+    created_at, login_failure_count, login_lock_until, quit_date, status, level
+)
+VALUES
+    ('세종대왕', '훈민정음', 'sejong@gmail.com', 'pw1234!', '010-1111-1111', 'M', '1397-05-15', 175.00, 70.50, 1, 95, NOW(), 0, NULL, NULL, 1, 1),
+    ('이순신', '충무공', 'leesoonshin@gmail.com', 'pw1234!', '010-2222-2222', 'M', '1545-04-28', 178.20, 75.30, 1, 92, NOW(), 0, NULL, NULL, 1, 1),
+    ('신사임당', '사임당', 'shinsaimdang@gmail.com', 'pw1234!', '010-3333-3333', 'F', '1504-10-29', 160.40, 55.20, 1, 88, NOW(), 0, NULL, NULL, 1, 1),
+    ('장영실', '과학자', 'jangyoungsil@gmail.com', 'pw1234!', '010-4444-4444', 'M', '1390-03-20', 170.80, 68.10, 1, 83, NOW(), 0, NULL, NULL, 1, 1),
+    ('김유신', '삼국통일', 'kimyushin@gmail.com', 'pw1234!', '010-5555-5555', 'M', '595-10-01', 176.50, 72.00, 1, 90, NOW(), 0, NULL, NULL, 1, 1),
+    ('유관순', '만세소녀', 'yugwansoon@gmail.com', 'pw1234!', '010-6666-6666', 'F', '1902-12-16', 158.00, 50.30, 1, 85, NOW(), 0, NULL, NULL, 1, 1),
+    ('정약용', '목민심서', 'jeongyakyong@gmail.com', 'pw1234!', '010-7777-7777', 'M', '1762-08-05', 172.00, 68.50, 1, 80, NOW(), 0, NULL, NULL, 1, 1),
+    ('윤봉길', '의사', 'yunbonggil@gmail.com', 'pw1234!', '010-8888-8888', 'M', '1908-06-21', 174.50, 69.20, 1, 87, NOW(), 0, NULL, NULL, 1, 1),
+    ('안중근', '의사', 'ahnjoonggeun@gmail.com', 'pw1234!', '010-9999-9999', 'M', '1879-09-02', 175.20, 71.80, 1, 93, NOW(), 0, NULL, NULL, 1, 1),
+    ('허준', '동의보감', 'heojun@gmail.com', 'pw1234!', '010-1010-1010', 'M', '1539-03-05', 168.00, 65.00, 1, 76, NOW(), 0, NULL, NULL, 1, 1),
+    ('이황', '퇴계', 'toegye@gmail.com', 'pw1234!', '010-1111-1212', 'M', '1501-11-25', 172.50, 66.80, 1, 70, NOW(), 0, NULL, NULL, 1, 1),
+    ('이이', '율곡', 'yulgok@gmail.com', 'pw1234!', '010-1212-1313', 'M', '1536-12-26', 173.00, 67.50, 1, 74, NOW(), 0, NULL, NULL, 1, 1),
+    ('김홍도', '단원', 'kimhongdo@gmail.com', 'pw1234!', '010-1313-1414', 'M', '1745-09-10', 171.60, 69.10, 1, 78, NOW(), 0, NULL, NULL, 1, 1),
+    ('심사임당', '화가', 'simsaimdang@gmail.com', 'pw1234!', '010-1414-1515', 'F', '1504-10-29', 159.00, 54.00, 1, 82, NOW(), 0, NULL, NULL, 1, 1),
+    ('박지원', '연암', 'parkjiwon@gmail.com', 'pw1234!', '010-1515-1616', 'M', '1737-02-05', 170.00, 66.00, 1, 68, NOW(), 0, NULL, NULL, 1, 1),
+    ('김구', '백범', 'kimkoo@gmail.com', 'pw1234!', '010-1616-1717', 'M', '1876-08-29', 176.00, 73.00, 1, 99, NOW(), 0, NULL, NULL, 1, 1),
+    ('안창호', '도산', 'ahndosan@gmail.com', 'pw1234!', '010-1717-1818', 'M', '1878-11-09', 177.00, 74.00, 1, 84, NOW(), 0, NULL, NULL, 1, 1),
+    ('유성룡', '징비록', 'yuseongryong@gmail.com', 'pw1234!', '010-1818-1919', 'M', '1542-01-01', 173.50, 67.00, 1, 77, NOW(), 0, NULL, NULL, 1, 1),
+    ('이방원', '태종', 'leebangwon@gmail.com', 'pw1234!', '010-1919-2020', 'M', '1367-06-13', 175.00, 72.00, 1, 81, NOW(), 0, NULL, NULL, 1, 1),
+    ('신채호', '단재', 'shinchaeho@gmail.com', 'pw1234!', '010-2020-2121', 'M', '1880-12-08', 174.00, 70.00, 1, 79, NOW(), 0, NULL, NULL, 1, 1);
+
 
 
 INSERT INTO post (title, content, member_id, tag_id) VALUES
@@ -22,6 +77,18 @@ INSERT INTO post (title, content, member_id, tag_id) VALUES
                                                          ('오늘 헬스장 사람 미쳤음', '기다리다가 운동 못함', 4, 1),
                                                          ('잡담) 날씨 너무 좋음', '뛰기 딱 좋다', 5, 4);
 
+-- 수정해야 할수도 있음
+INSERT INTO post_tag (name, post_id) VALUES
+                                         ('#레그데이', 1),
+                                         ('#샐러드맛집', 2),
+                                         ('#다이어트중', 3),
+                                         ('#운동자극', 4),
+                                         ('#식단고민', 5),
+                                         ('#PT일지', 6),
+                                         ('#저녁식dm_room단', 7),
+                                         ('#멘탈회복', 8),
+                                         ('#헬스장지옥', 9),
+                                         ('#일상', 10);
 
 INSERT INTO post_like (post_id, member_id) VALUES
                                                (1, 2),
@@ -80,18 +147,38 @@ VALUES
     ('post10.jpg', '/upload/post10.jpg', 'image/jpeg', '/var/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,18);
 
 
--- 수정해야 할수도 있음
-INSERT INTO post_tag (name, post_id) VALUES
-                                         ('#레그데이', 1),
-                                         ('#샐러드맛집', 2),
-                                         ('#다이어트중', 3),
-                                         ('#운동자극', 4),
-                                         ('#식단고민', 5),
-                                         ('#PT일지', 6),
-                                         ('#저녁식dm_room단', 7),
-                                         ('#멘탈회복', 8),
-                                         ('#헬스장지옥', 9),
-                                         ('#일상', 10);
+
+INSERT INTO extend_file_path (url_path) VALUES
+                                            ('http://192.168.0.1:8080/upload/1'),
+                                            ('http://192.168.0.1:8080/upload/2'),
+                                            ('http://192.168.0.1:8080/upload/3'),
+                                            ('http://192.168.0.1:8080/upload/4'),
+                                            ('http://192.168.0.1:8080/upload/5'),
+                                            ('http://192.168.0.1:8080/upload/6'),
+                                            ('http://192.168.0.1:8080/upload/7'),
+                                            ('http://192.168.0.1:8080/upload/8'),
+                                            ('http://192.168.0.1:8080/upload/9'),
+                                            ('http://192.168.0.1:8080/upload/10'),
+                                            ('http://192.168.0.1:8080/upload/11'),
+                                            ('http://192.168.0.1:8080/upload/12'),
+                                            ('http://192.168.0.1:8080/upload/13'),
+                                            ('http://192.168.0.1:8080/upload/14'),
+                                            ('http://192.168.0.1:8080/upload/15'),
+                                            ('http://192.168.0.1:8080/upload/16'),
+                                            ('http://192.168.0.1:8080/upload/17'),
+                                            ('http://192.168.0.1:8080/upload/18'),
+                                            ('http://192.168.0.1:8080/upload/19'),
+                                            ('http://192.168.0.1:8080/upload/20'),
+                                            ('http://192.168.0.1:8080/upload/21'),
+                                            ('http://192.168.0.1:8080/upload/22'),
+                                            ('http://192.168.0.1:8080/upload/23'),
+                                            ('http://192.168.0.1:8080/upload/24'),
+                                            ('http://192.168.0.1:8080/upload/25'),
+                                            ('http://192.168.0.1:8080/upload/26'),
+                                            ('http://192.168.0.1:8080/upload/27'),
+                                            ('http://192.168.0.1:8080/upload/28'),
+                                            ('http://192.168.0.1:8080/upload/29');
+
 
 
 INSERT INTO upload_file (
@@ -99,54 +186,27 @@ INSERT INTO upload_file (
     original_file_name, re_file_name, member_id, extend_file_path_id
 )
 VALUES
-('image/jpeg', '/uploads/2025/11/01/profile1.jpg', '2025-11-01 10:15:23', 'ACTIVE', 'profile1.jpg', 'f1a2b3c4d5.jpg', 1, 10),
-('image/png', '/uploads/2025/11/01/profile2.png', '2025-11-01 11:42:10', 'ACTIVE', 'profile2.png', 'a2b3c4d5e6.png', 2, 11),
-('application/pdf', '/uploads/2025/11/01/doc1.pdf', '2025-11-01 13:21:55', 'INACTIVE', 'resume.pdf', 'x9y8z7w6v5.pdf', 3, 12),
-('image/jpeg', '/uploads/2025/11/02/mountain1.jpg', '2025-11-02 09:32:10', 'ACTIVE', 'mountain1.jpg', 'j1k2l3m4n5.jpg', 1, 13),
-('image/png', '/uploads/2025/11/02/mountain2.png', '2025-11-02 14:12:59', 'ACTIVE', 'mountain2.png', 'k2l3m4n5o6.png', 4, 14),
-('application/pdf', '/uploads/2025/11/02/report.pdf', '2025-11-02 16:44:03', 'INACTIVE', 'report.pdf', 'r5t6y7u8i9.pdf', 5, 15),
-('image/jpeg', '/uploads/2025/11/03/avatar1.jpg', '2025-11-03 08:01:44', 'ACTIVE', 'avatar1.jpg', 'q1w2e3r4t5.jpg', 2, 16),
-('image/png', '/uploads/2025/11/03/avatar2.png', '2025-11-03 11:27:18', 'ACTIVE', 'avatar2.png', 'w2e3r4t5y6.png', 3, 17),
-('image/jpeg', '/uploads/2025/11/03/avatar3.jpg', '2025-11-03 12:48:30', 'INACTIVE', 'avatar3.jpg', 'e3r4t5y6u7.jpg', 4, 18),
-('image/jpeg', '/uploads/2025/11/04/photo1.jpg', '2025-11-04 09:50:10', 'ACTIVE', 'photo1.jpg', 'z1x2c3v4b5.jpg', 1, 19),
-('image/png', '/uploads/2025/11/04/photo2.png', '2025-11-04 10:33:55', 'ACTIVE', 'photo2.png', 'x2c3v4b5n6.png', 2, 20),
-('application/pdf', '/uploads/2025/11/04/manual.pdf', '2025-11-04 13:21:22', 'INACTIVE', 'manual.pdf', 'p9o8i7u6y5.pdf', 5, 21),
-('image/jpeg', '/uploads/2025/11/05/pic1.jpg', '2025-11-05 08:12:14', 'ACTIVE', 'pic1.jpg', 'a1s2d3f4g5.jpg', 1, 22),
-('image/jpeg', '/uploads/2025/11/05/pic2.jpg', '2025-11-05 09:33:41', 'ACTIVE', 'pic2.jpg', 's2d3f4g5h6.jpg', 2, 23),
-('image/png', '/uploads/2025/11/05/pic3.png', '2025-11-05 11:19:50', 'INACTIVE', 'pic3.png', 'd3f4g5h6j7.png', 3, 24),
-('image/jpeg', '/uploads/2025/11/06/user1.jpg', '2025-11-06 09:00:00', 'ACTIVE', 'user1.jpg', 'u1i2o3p4q5.jpg', 4, 25),
-('image/png', '/uploads/2025/11/06/user2.png', '2025-11-06 09:15:25', 'ACTIVE', 'user2.png', 'i2o3p4q5r6.png', 5, 26),
-('image/jpeg', '/uploads/2025/11/06/user3.jpg', '2025-11-06 10:42:38', 'ACTIVE', 'user3.jpg', 'o3p4q5r6s7.jpg', 2, 27),
-('application/pdf', '/uploads/2025/11/06/doc2.pdf', '2025-11-06 11:58:00', 'INACTIVE', 'document.pdf', 'r4s5t6y7u8.pdf', 3, 28),
-('image/jpeg', '/uploads/2025/11/06/banner.jpg', '2025-11-06 12:30:12', 'ACTIVE', 'banner.jpg', 'y6u7i8o9p0.jpg', 1, 29);
+    ('image/jpeg', '/uploads/2025/11/01/profile1.jpg', '2025-11-01 10:15:23', 'ACTIVE', 'profile1.jpg', 'f1a2b3c4d5.jpg', 1, 10),
+    ('image/png', '/uploads/2025/11/01/profile2.png', '2025-11-01 11:42:10', 'ACTIVE', 'profile2.png', 'a2b3c4d5e6.png', 2, 11),
+    ('application/pdf', '/uploads/2025/11/01/doc1.pdf', '2025-11-01 13:21:55', 'INACTIVE', 'resume.pdf', 'x9y8z7w6v5.pdf', 3, 12),
+    ('image/jpeg', '/uploads/2025/11/02/mountain1.jpg', '2025-11-02 09:32:10', 'ACTIVE', 'mountain1.jpg', 'j1k2l3m4n5.jpg', 1, 13),
+    ('image/png', '/uploads/2025/11/02/mountain2.png', '2025-11-02 14:12:59', 'ACTIVE', 'mountain2.png', 'k2l3m4n5o6.png', 4, 14),
+    ('application/pdf', '/uploads/2025/11/02/report.pdf', '2025-11-02 16:44:03', 'INACTIVE', 'report.pdf', 'r5t6y7u8i9.pdf', 5, 15),
+    ('image/jpeg', '/uploads/2025/11/03/avatar1.jpg', '2025-11-03 08:01:44', 'ACTIVE', 'avatar1.jpg', 'q1w2e3r4t5.jpg', 2, 16),
+    ('image/png', '/uploads/2025/11/03/avatar2.png', '2025-11-03 11:27:18', 'ACTIVE', 'avatar2.png', 'w2e3r4t5y6.png', 3, 17),
+    ('image/jpeg', '/uploads/2025/11/03/avatar3.jpg', '2025-11-03 12:48:30', 'INACTIVE', 'avatar3.jpg', 'e3r4t5y6u7.jpg', 4, 18),
+    ('image/jpeg', '/uploads/2025/11/04/photo1.jpg', '2025-11-04 09:50:10', 'ACTIVE', 'photo1.jpg', 'z1x2c3v4b5.jpg', 1, 19),
+    ('image/png', '/uploads/2025/11/04/photo2.png', '2025-11-04 10:33:55', 'ACTIVE', 'photo2.png', 'x2c3v4b5n6.png', 2, 20),
+    ('application/pdf', '/uploads/2025/11/04/manual.pdf', '2025-11-04 13:21:22', 'INACTIVE', 'manual.pdf', 'p9o8i7u6y5.pdf', 5, 21),
+    ('image/jpeg', '/uploads/2025/11/05/pic1.jpg', '2025-11-05 08:12:14', 'ACTIVE', 'pic1.jpg', 'a1s2d3f4g5.jpg', 1, 22),
+    ('image/jpeg', '/uploads/2025/11/05/pic2.jpg', '2025-11-05 09:33:41', 'ACTIVE', 'pic2.jpg', 's2d3f4g5h6.jpg', 2, 23),
+    ('image/png', '/uploads/2025/11/05/pic3.png', '2025-11-05 11:19:50', 'INACTIVE', 'pic3.png', 'd3f4g5h6j7.png', 3, 24),
+    ('image/jpeg', '/uploads/2025/11/06/user1.jpg', '2025-11-06 09:00:00', 'ACTIVE', 'user1.jpg', 'u1i2o3p4q5.jpg', 4, 25),
+    ('image/png', '/uploads/2025/11/06/user2.png', '2025-11-06 09:15:25', 'ACTIVE', 'user2.png', 'i2o3p4q5r6.png', 5, 26),
+    ('image/jpeg', '/uploads/2025/11/06/user3.jpg', '2025-11-06 10:42:38', 'ACTIVE', 'user3.jpg', 'o3p4q5r6s7.jpg', 2, 27),
+    ('application/pdf', '/uploads/2025/11/06/doc2.pdf', '2025-11-06 11:58:00', 'INACTIVE', 'document.pdf', 'r4s5t6y7u8.pdf', 3, 28),
+    ('image/jpeg', '/uploads/2025/11/06/banner.jpg', '2025-11-06 12:30:12', 'ACTIVE', 'banner.jpg', 'y6u7i8o9p0.jpg', 1, 29);
 
-
-
-INSERT INTO member (
-    name, nickname, email, pw, phone, gender, birth, height, weight, body_metric, point,
-    created_at, login_failure_count, login_lock_until, quit_date, status, level
-)
-VALUES
-    ('세종대왕', '훈민정음', 'sejong@gmail.com', 'pw1234!', '010-1111-1111', 'M', '1397-05-15', 175.00, 70.50, 1, 95, NOW(), 0, NULL, NULL, 1, 1),
-    ('이순신', '충무공', 'leesoonshin@gmail.com', 'pw1234!', '010-2222-2222', 'M', '1545-04-28', 178.20, 75.30, 1, 92, NOW(), 0, NULL, NULL, 1, 1),
-    ('신사임당', '사임당', 'shinsaimdang@gmail.com', 'pw1234!', '010-3333-3333', 'F', '1504-10-29', 160.40, 55.20, 1, 88, NOW(), 0, NULL, NULL, 1, 1),
-    ('장영실', '과학자', 'jangyoungsil@gmail.com', 'pw1234!', '010-4444-4444', 'M', '1390-03-20', 170.80, 68.10, 1, 83, NOW(), 0, NULL, NULL, 1, 1),
-    ('김유신', '삼국통일', 'kimyushin@gmail.com', 'pw1234!', '010-5555-5555', 'M', '595-10-01', 176.50, 72.00, 1, 90, NOW(), 0, NULL, NULL, 1, 1),
-    ('유관순', '만세소녀', 'yugwansoon@gmail.com', 'pw1234!', '010-6666-6666', 'F', '1902-12-16', 158.00, 50.30, 1, 85, NOW(), 0, NULL, NULL, 1, 1),
-    ('정약용', '목민심서', 'jeongyakyong@gmail.com', 'pw1234!', '010-7777-7777', 'M', '1762-08-05', 172.00, 68.50, 1, 80, NOW(), 0, NULL, NULL, 1, 1),
-    ('윤봉길', '의사', 'yunbonggil@gmail.com', 'pw1234!', '010-8888-8888', 'M', '1908-06-21', 174.50, 69.20, 1, 87, NOW(), 0, NULL, NULL, 1, 1),
-    ('안중근', '의사', 'ahnjoonggeun@gmail.com', 'pw1234!', '010-9999-9999', 'M', '1879-09-02', 175.20, 71.80, 1, 93, NOW(), 0, NULL, NULL, 1, 1),
-    ('허준', '동의보감', 'heojun@gmail.com', 'pw1234!', '010-1010-1010', 'M', '1539-03-05', 168.00, 65.00, 1, 76, NOW(), 0, NULL, NULL, 1, 1),
-    ('이황', '퇴계', 'toegye@gmail.com', 'pw1234!', '010-1111-1212', 'M', '1501-11-25', 172.50, 66.80, 1, 70, NOW(), 0, NULL, NULL, 1, 1),
-    ('이이', '율곡', 'yulgok@gmail.com', 'pw1234!', '010-1212-1313', 'M', '1536-12-26', 173.00, 67.50, 1, 74, NOW(), 0, NULL, NULL, 1, 1),
-    ('김홍도', '단원', 'kimhongdo@gmail.com', 'pw1234!', '010-1313-1414', 'M', '1745-09-10', 171.60, 69.10, 1, 78, NOW(), 0, NULL, NULL, 1, 1),
-    ('심사임당', '화가', 'simsaimdang@gmail.com', 'pw1234!', '010-1414-1515', 'F', '1504-10-29', 159.00, 54.00, 1, 82, NOW(), 0, NULL, NULL, 1, 1),
-    ('박지원', '연암', 'parkjiwon@gmail.com', 'pw1234!', '010-1515-1616', 'M', '1737-02-05', 170.00, 66.00, 1, 68, NOW(), 0, NULL, NULL, 1, 1),
-    ('김구', '백범', 'kimkoo@gmail.com', 'pw1234!', '010-1616-1717', 'M', '1876-08-29', 176.00, 73.00, 1, 99, NOW(), 0, NULL, NULL, 1, 1),
-    ('안창호', '도산', 'ahndosan@gmail.com', 'pw1234!', '010-1717-1818', 'M', '1878-11-09', 177.00, 74.00, 1, 84, NOW(), 0, NULL, NULL, 1, 1),
-    ('유성룡', '징비록', 'yuseongryong@gmail.com', 'pw1234!', '010-1818-1919', 'M', '1542-01-01', 173.50, 67.00, 1, 77, NOW(), 0, NULL, NULL, 1, 1),
-    ('이방원', '태종', 'leebangwon@gmail.com', 'pw1234!', '010-1919-2020', 'M', '1367-06-13', 175.00, 72.00, 1, 81, NOW(), 0, NULL, NULL, 1, 1),
-    ('신채호', '단재', 'shinchaeho@gmail.com', 'pw1234!', '010-2020-2121', 'M', '1880-12-08', 174.00, 70.00, 1, 79, NOW(), 0, NULL, NULL, 1, 1);
 
 
 
@@ -176,6 +236,33 @@ VALUES
     ('WEIGHT', 69.50, NULL, NULL, NULL, NULL, '2025-11-19 00:00:00', '2026-04-15 00:00:00', NOW(), 19),
     ('CALORIE', NULL, 2100, 130, 60, 270, '2025-11-20 00:00:00', '2026-04-20 00:00:00', NOW(), 20);
 
+-- 신고 구분 코드
+INSERT INTO report_base (title, count, day_of_ban) VALUES
+                                                       ('욕설', 3, 7),
+                                                       ('도배', 5, 3),
+                                                       ('사기', 1, 30),
+                                                       ('음란물', 1, 15),
+                                                       ('허위사실', 2, 10),
+                                                       ('스팸', 5, 5),
+                                                       ('괴롭힘', 2, 14),
+                                                       ('기타', 5, 1),
+                                                       ('명예훼손', 2, 14),
+                                                       ('불법 광고', 3, 10);
+
+-- 신고 데이터
+INSERT INTO report (title, contents, yn, date, report_image_url, member_id2, post_id, comment_id, admin_id, report_id, member_id) VALUES
+                                                                                                                                      ('욕설 신고', '댓글에서 욕설 사용', TRUE, NOW(), '/img/report1.png', 2, 11, 1001, NULL, 1, 1),
+                                                                                                                                      ('도배 신고', '같은 글을 반복 게시', TRUE, NOW(), '/img/report2.png', 3, 12, NULL, NULL, 2, 2),
+                                                                                                                                      ('사기 신고', '물품 거래 사기 발생', TRUE, NOW(), '/img/report3.png', 4, NULL, NULL, NULL, 3, 3),
+                                                                                                                                      ('음란물 신고', '부적절한 사진 업로드', TRUE, NOW(), '/img/report4.png', 5, 14, NULL, NULL, 4, 4),
+                                                                                                                                      ('허위사실 신고', '허위 정보 유포', TRUE, NOW(), '/img/report5.png', 6, 15, NULL, NULL, 5, 5);
+
+-- 신고 파일 업로드
+INSERT INTO report_fileupload (report_id, name, type, `rename`, path, thumb_path, upload_order) VALUES
+                                                                                                    (1, 'report1.jpg', 'image/jpeg', 'report1_001.jpg', '/upload/report1.jpg', '/upload/thumb_report1.jpg', 1),
+                                                                                                    (2, 'report2.jpg', 'image/jpeg', 'report2_001.jpg', '/upload/report2.jpg', '/upload/thumb_report2.jpg', 1),
+                                                                                                    (3, 'report3.png', 'image/png', 'report3_001.png', '/upload/report3.png', '/upload/thumb_report3.png', 1);
+
 
 INSERT INTO ban (
     startDate, endDate, admin_id, member_id, report_no
@@ -189,13 +276,6 @@ VALUES
 
 
 
-
-INSERT INTO authorites (
-    authurity, description
-)
-VALUES
-    ('ROLE_ADMIN', '시스템 관리 권한 — 모든 회원 관리 및 설정 변경 가능'),
-    ('ROLE_MEMBER', '일반 사용자 권한 — 서비스 이용 및 기본 기능 접근 가능');
 
 
 
@@ -318,54 +398,7 @@ VALUES
     ('2025-11-01 17:10:00', '192.168.0.30', '/login', 20);
 
 
-INSERT INTO extend_file_path (url_path) VALUES
-                                            ('http://192.168.0.1:8080/upload/1'),
-                                            ('http://192.168.0.1:8080/upload/2'),
-                                            ('http://192.168.0.1:8080/upload/3'),
-                                            ('http://192.168.0.1:8080/upload/4'),
-                                            ('http://192.168.0.1:8080/upload/5'),
-                                            ('http://192.168.0.1:8080/upload/6'),
-                                            ('http://192.168.0.1:8080/upload/7'),
-                                            ('http://192.168.0.1:8080/upload/8'),
-                                            ('http://192.168.0.1:8080/upload/9'),
-                                            ('http://192.168.0.1:8080/upload/10'),
-                                            ('http://192.168.0.1:8080/upload/11'),
-                                            ('http://192.168.0.1:8080/upload/12'),
-                                            ('http://192.168.0.1:8080/upload/13'),
-                                            ('http://192.168.0.1:8080/upload/14'),
-                                            ('http://192.168.0.1:8080/upload/15'),
-                                            ('http://192.168.0.1:8080/upload/16'),
-                                            ('http://192.168.0.1:8080/upload/17'),
-                                            ('http://192.168.0.1:8080/upload/18'),
-                                            ('http://192.168.0.1:8080/upload/19'),
-                                            ('http://192.168.0.1:8080/upload/20'),
-                                            ('http://192.168.0.1:8080/upload/21'),
-                                            ('http://192.168.0.1:8080/upload/22'),
-                                            ('http://192.168.0.1:8080/upload/23'),
-                                            ('http://192.168.0.1:8080/upload/24'),
-                                            ('http://192.168.0.1:8080/upload/25'),
-                                            ('http://192.168.0.1:8080/upload/26'),
-                                            ('http://192.168.0.1:8080/upload/27'),
-                                            ('http://192.168.0.1:8080/upload/28'),
-                                            ('http://192.168.0.1:8080/upload/29');
 
-
-INSERT INTO member_status (
-    STATUS
-)
-VALUES
-    ('정상'),
-    ('탈퇴'),
-    ('정지'),
-    ('휴먼상태'),
-    ('블랙리스트');
-
-INSERT INTO member_rank(
-    NAME , badge_count )
-VALUES
-    ('새싹이',0),
-    ('튼튼이',20),
-    ('헬린이',50);
 
 -- ----------------------------
 -- 1. food (음식 정보) 더미 데이터
@@ -459,32 +492,6 @@ INSERT INTO exercise_fileupload (exercise_id, name, type, re_name, path, thumb_p
                                                                                                        (3, 'squat1.jpg', 'image/jpeg', 'squat_001.jpg', '/uploads/exercise/squat_001.jpg', '/uploads/exercise/thumb_squat_001.jpg', 1),
                                                                                                        (4, 'yoga1.jpg', 'image/jpeg', 'yoga_001.jpg', '/uploads/exercise/yoga_001.jpg', '/uploads/exercise/thumb_yoga_001.jpg', 1);
 
--- 신고 구분 코드
-INSERT INTO report_base (title, count, day_of_ban) VALUES
-                                                       ('욕설', 3, 7),
-                                                       ('도배', 5, 3),
-                                                       ('사기', 1, 30),
-                                                       ('음란물', 1, 15),
-                                                       ('허위사실', 2, 10),
-                                                       ('스팸', 5, 5),
-                                                       ('괴롭힘', 2, 14),
-                                                       ('기타', 5, 1),
-                                                       ('명예훼손', 2, 14),
-                                                       ('불법 광고', 3, 10);
-
--- 신고 데이터
-INSERT INTO report (title, contents, yn, date, report_image_url, member_id2, post_id, comment_id, admin_id, report_id, member_id) VALUES
-                                                                                                                                      ('욕설 신고', '댓글에서 욕설 사용', TRUE, NOW(), '/img/report1.png', 2, 11, 1001, NULL, 1, 1),
-                                                                                                                                      ('도배 신고', '같은 글을 반복 게시', TRUE, NOW(), '/img/report2.png', 3, 12, NULL, NULL, 2, 2),
-                                                                                                                                      ('사기 신고', '물품 거래 사기 발생', TRUE, NOW(), '/img/report3.png', 4, NULL, NULL, NULL, 3, 3),
-                                                                                                                                      ('음란물 신고', '부적절한 사진 업로드', TRUE, NOW(), '/img/report4.png', 5, 14, NULL, NULL, 4, 4),
-                                                                                                                                      ('허위사실 신고', '허위 정보 유포', TRUE, NOW(), '/img/report5.png', 6, 15, NULL, NULL, 5, 5);
-
--- 신고 파일 업로드
-INSERT INTO report_fileupload (report_id, name, type, `rename`, path, thumb_path, upload_order) VALUES
-                                                                                                  (1, 'report1.jpg', 'image/jpeg', 'report1_001.jpg', '/upload/report1.jpg', '/upload/thumb_report1.jpg', 1),
-                                                                                                  (2, 'report2.jpg', 'image/jpeg', 'report2_001.jpg', '/upload/report2.jpg', '/upload/thumb_report2.jpg', 1),
-                                                                                                  (3, 'report3.png', 'image/png', 'report3_001.png', '/upload/report3.png', '/upload/thumb_report3.png', 1);
 
 -- 블랙리스트
 INSERT INTO black_list (member_id, create_date, reason, admin_id) VALUES
@@ -663,22 +670,22 @@ INSERT INTO point (point_id, point, distinction, member_id, diary_id, calender_i
 -- (ID가 1, 2, 3으로 자동 생성됨)
 -- ----------------------------
 INSERT INTO allergy (name) VALUES
-('땅콩'),
-('우유'),
-('갑각류');
+                               ('땅콩'),
+                               ('우유'),
+                               ('갑각류');
 
 -- ----------------------------
 -- 2. member_allergy (회원의 알러지 정보) 더미 데이터
 -- ----------------------------
 INSERT INTO member_allergy (member_id, allergy_id) VALUES
-(1, 1), -- 1번 회원: '땅콩' 알러지
-(1, 2), -- 1번 회원: '우유' 알러지
-(2, 3); -- 2번 회원: '갑각류' 알러지
+                                                       (1, 1), -- 1번 회원: '땅콩' 알러지
+                                                       (1, 2), -- 1번 회원: '우유' 알러지
+                                                       (2, 3); -- 2번 회원: '갑각류' 알러지
 
 -- ----------------------------
 -- 3. food_allergy (음식(식사)의 알러지 유발 정보) 더미 데이터
 -- ----------------------------
 INSERT INTO food_allergy (meal_id, allergy_id) VALUES
-(1, 1), -- 1번 식사: '땅콩' 포함
-(2, 2), -- 2번 식사: '우유' 포함
-(3, 3); -- 3번 식사: '갑각류' 포함
+                                                   (1, 1), -- 1번 식사: '땅콩' 포함
+                                                   (2, 2), -- 2번 식사: '우유' 포함
+                                                   (3, 3); -- 3번 식사: '갑각류' 포함
