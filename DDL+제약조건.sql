@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS member (
     quit_date   datetime   NULL,
     status   bigint   NOT NULL   DEFAULT 1,
     level   bigint   NOT NULL default 1,
-    ban int null default 0,
+    ban_cnt int null default 0,
     constraint pk_member_id primary key(id),
     constraint ck_member_gender check(gender in('M','F'))
     ) ENGINE=InnoDB;
