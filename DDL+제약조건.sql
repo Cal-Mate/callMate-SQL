@@ -36,13 +36,14 @@ DROP TABLE IF EXISTS `qna`;
 DROP TABLE IF EXISTS `calender`;
 DROP TABLE IF EXISTS `diary_file`;
 DROP TABLE IF EXISTS `qna_comment`;
-DROP TABLE IF EXISTS gacha_draw_log;
-DROP TABLE IF EXISTS gacha_reward_grant;
-DROP TABLE IF EXISTS gacha_board_cell;
-DROP TABLE IF EXISTS gacha_fileupload;
-DROP TABLE IF EXISTS gacha_quantity;
-DROP TABLE IF EXISTS gacha_prize;
-DROP TABLE IF EXISTS gacha_event;
+DROP TABLE IF EXISTS `gacha_reward_grant`;
+DROP TABLE IF EXISTS `gacha_draw_log`;
+DROP TABLE IF EXISTS `gacha_shared_board`;
+DROP TABLE IF EXISTS `gacha_board_seed`;
+DROP TABLE IF EXISTS `gacha_quantity`;
+DROP TABLE IF EXISTS `gacha_prize`;
+DROP TABLE IF EXISTS `gacha_event`;
+DROP TABLE IF EXISTS `gacha_reset`;
 
 DROP TABLE IF EXISTS bingo_fileupload;
 DROP TABLE IF EXISTS bingo_cell;
@@ -50,41 +51,41 @@ DROP TABLE IF EXISTS bingo_board;
 
 DROP TABLE IF EXISTS point;
 
-DROP TABLE IF EXISTS gacha_reset;
-
 DROP TABLE IF EXISTS member_allergy;
 DROP TABLE IF EXISTS allergy;
 DROP TABLE IF EXISTS food_allergy;
+
+DROP TABLE IF EXISTS base_of_point;
 
 
 -- ------------- DDL -------------- --
 CREATE TABLE IF NOT EXISTS upload_file (
                                            id   bigint   NOT NULL auto_increment,
                                            mime_type   VARCHAR(255)   not NULL,
-                                           file_path   VARCHAR(255)   NOT NULL,
-                                           created_at   DATETIME   NULL default now(),
-                                           State   VARCHAR(255)   NULL,
-                                           original_file_name   VARCHAR(255)   NULL,
-                                           re_file_name   VARCHAR(255)   NULL,
-                                           member_id   bigint   NOT NULL,
-                                           extend_file_path_id   BIGINT   NOT NULL,
-                                           constraint pk_upload_file_id primary key(id)
-) ENGINE=InnoDB;
+    file_path   VARCHAR(255)   NOT NULL,
+    created_at   DATETIME   NULL default now(),
+    State   VARCHAR(255)   NULL,
+    original_file_name   VARCHAR(255)   NULL,
+    re_file_name   VARCHAR(255)   NULL,
+    member_id   bigint   NOT NULL,
+    extend_file_path_id   BIGINT   NOT NULL,
+    constraint pk_upload_file_id primary key(id)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS goal (
                                     id   bigint   NOT NULL auto_increment,
                                     type   ENUM('WEIGHT','CALORIE','MACRO') NOT NULL,
-                                    target_value   DECIMAL(10,2)   NULL,
-                                    kcal_per_day   INT   NULL,
-                                    protein_g   INT   NULL,
-                                    fat_g   INT   NULL,
-                                    carbs_g   INT   NULL,
-                                    start_date   DATETIME   NOT NULL,
-                                    end_date   DATETIME   NULL,
-                                    created_at   DATETIME   NOT NULL default now(),
-                                    member_id   bigint   NOT NULL,
-                                    constraint pk_goal_id primary key(id)
-) ENGINE=InnoDB;
+    target_value   DECIMAL(10,2)   NULL,
+    kcal_per_day   INT   NULL,
+    protein_g   INT   NULL,
+    fat_g   INT   NULL,
+    carbs_g   INT   NULL,
+    start_date   DATETIME   NOT NULL,
+    end_date   DATETIME   NULL,
+    created_at   DATETIME   NOT NULL default now(),
+    member_id   bigint   NOT NULL,
+    constraint pk_goal_id primary key(id)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS ban (
                                    id   bigint   NOT NULL auto_increment,
@@ -94,123 +95,123 @@ CREATE TABLE IF NOT EXISTS ban (
                                    member_id   bigint   NOT NULL,
                                    report_no   bigint   NOT NULL,
                                    constraint pk_ban_id primary key(id)
-) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS member_status (
                                              id   bigint   NOT NULL auto_increment,
                                              status   varchar(255)   NULL,
-                                             constraint pk_member_status_id primary key(id)
-) ENGINE=InnoDB;
+    constraint pk_member_status_id primary key(id)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS member (
                                       id   bigint   NOT NULL auto_increment,
                                       name   VARCHAR(255)   NULL,
-                                      nickname   VARCHAR(255)   NULL,
-                                      email   VARCHAR(255)   NOT NULL,
-                                      pw   VARCHAR(255)   NOT NULL,
-                                      phone   VARCHAR(255)   NULL,
-                                      gender   varchar(1)   NULL,
-                                      birth   VARCHAR(255)   NULL,
-                                      height   DECIMAL(5,2)   NOT NULL DEFAULT 0,
-                                      weight   DECIMAL(5,2)   NOT NULL DEFAULT 0,
-                                      body_metric   INT   NULL   COMMENT '회원 가입 할때 defualt로 계산 값 입력',
-                                      point   INT   NULL default 0,
-                                      created_at   DATETIME   NOT NULL default now(),
-                                      login_failure_count   int   NULL default 0,
-                                      login_lock_until   datetime   NULL   COMMENT '연속5회 비밀번호 오류시 15분 접속 제한',
-                                      quit_date   datetime   NULL,
-                                      status   bigint   NOT NULL   DEFAULT 1,
-                                      level   bigint   NOT NULL default 1,
-                                      ban int null default 0,
-                                      constraint pk_member_id primary key(id),
-                                      constraint ck_member_gender check(gender in('M','F'))
-) ENGINE=InnoDB;
+    nickname   VARCHAR(255)   NULL,
+    email   VARCHAR(255)   NOT NULL,
+    pw   VARCHAR(255)   NOT NULL,
+    phone   VARCHAR(255)   NULL,
+    gender   varchar(1)   NULL,
+    birth   VARCHAR(255)   NULL,
+    height   DECIMAL(5,2)   NOT NULL DEFAULT 0,
+    weight   DECIMAL(5,2)   NOT NULL DEFAULT 0,
+    body_metric   INT   NULL   COMMENT '회원 가입 할때 defualt로 계산 값 입력',
+    point   INT   NULL,
+    created_at   DATETIME   NOT NULL default now(),
+    login_failure_count   int   NULL default 0,
+    login_lock_until   datetime   NULL   COMMENT '연속5회 비밀번호 오류시 15분 접속 제한',
+    quit_date   datetime   NULL,
+    status   bigint   NOT NULL   DEFAULT 1,
+    level   bigint   NOT NULL default 1,
+    ban_cnt int null default 0,
+    constraint pk_member_id primary key(id),
+    constraint ck_member_gender check(gender in('M','F'))
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS member_rank (
                                            id   bigint   NOT NULL auto_increment,
                                            name   varchar(255)   NULL,
-                                           badge_count   int   NULL   COMMENT '뱃지 갯수',
-                                           constraint pk_member_rank_id primary key(id)
-) ENGINE=InnoDB;
+    badge_count   int   NULL   COMMENT '뱃지 갯수',
+    constraint pk_member_rank_id primary key(id)
+    ) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS member_authority (
                                                 member_id   bigint   NOT NULL ,
                                                 authories_id   bigint   NOT NULL,
                                                 constraint pk_member_authority_member_id_authories_id primary key(member_id,authories_id)
-) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS authorites (
                                           id   bigint   NOT NULL auto_increment,
                                           authurity   VARCHAR(255)   NOT NULL,
-                                          description   varchar(255)   NULL,
-                                          constraint pk_authorites_id primary key(id)
-) ENGINE=InnoDB;
+    description   varchar(255)   NULL,
+    constraint pk_authorites_id primary key(id)
+    ) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS login_failure_history (
                                                      id   bigint   NOT NULL auto_increment,
                                                      failure_datetime   datetime   NOT NULL,
                                                      failure_ip   varchar(255)   NULL,
-                                                     failure_reasone   varchar(2000)   NULL,
-                                                     member_id   bigint   NOT NULL,
-                                                     constraint pk_login_failure_history_id primary key(id)
-) ENGINE=InnoDB;
+    failure_reasone   varchar(2000)   NULL,
+    member_id   bigint   NOT NULL,
+    constraint pk_login_failure_history_id primary key(id)
+    ) ENGINE=InnoDB;
 
 
 
 CREATE TABLE IF NOT EXISTS refresh_token (
                                              id   bigint   NOT NULL auto_increment,
                                              token_hash   varchar(128)   NOT NULL,
-                                             jti   varchar(64)   NULL   COMMENT 'unique 제약조건',
-                                             issued_at   datetime   NULL default now(),
-                                             expires_at   datetime   NULL,
-                                             revoked   tinyint   NULL   DEFAULT 0,
-                                             revoked_at   datetime   NULL,
-                                             device_fp   varchar(255)   NULL,
-                                             ip   varchar(255)   NULL,
-                                             last_used_at   datetime   NULL default now(),
-                                             member_id   bigint   NOT NULL,
-                                             constraint pk_refresh_token_id primary key(id),
-                                             constraint uk_refresh_token_jti unique(jti)
-) ENGINE=InnoDB;
+    jti   varchar(64)   NULL   COMMENT 'unique 제약조건',
+    issued_at   datetime   NULL default now(),
+    expires_at   datetime   NULL,
+    revoked   tinyint   NULL   DEFAULT 0,
+    revoked_at   datetime   NULL,
+    device_fp   varchar(255)   NULL,
+    ip   varchar(255)   NULL,
+    last_used_at   datetime   NULL default now(),
+    member_id   bigint   NOT NULL,
+    constraint pk_refresh_token_id primary key(id),
+    constraint uk_refresh_token_jti unique(jti)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS login_history (
                                              id   bigint   NOT NULL auto_increment,
                                              login_date   datetime   NOT NULL default now(),
-                                             come_in_ip   varchar(255)   NULL,
-                                             before_path   varchar(255)   NULL,
-                                             member_id   bigint   NOT NULL,
-                                             constraint pk_login_history_id primary key(id)
-) ENGINE=InnoDB;
+    come_in_ip   varchar(255)   NULL,
+    before_path   varchar(255)   NULL,
+    member_id   bigint   NOT NULL,
+    constraint pk_login_history_id primary key(id)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS extend_file_path (
                                                 id   BIGINT   NOT NULL auto_increment,
                                                 url_path   VARCHAR(255) NULL,
-                                                constraint pk_extend_file_path_id primary key(id)
-) ENGINE=InnoDB;
+    constraint pk_extend_file_path_id primary key(id)
+    ) ENGINE=InnoDB;
 
 
 -- 1) 태그
 CREATE TABLE IF NOT EXISTS tag (
                                    id   INT   NOT NULL      AUTO_INCREMENT   ,
                                    name   VARCHAR(255)   NOT NULL   ,
-                                   PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 
 -- 2) 게시판 (post)
 CREATE TABLE IF NOT EXISTS post (
                                     id   INT   NOT NULL    AUTO_INCREMENT   ,
                                     title   VARCHAR(255)   NOT NULL,
-                                    content   VARCHAR(255)   NULL,
-                                    visibility   TINYINT(1)   NULL   DEFAULT 0   ,
-                                    created_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP ,
-                                    member_id   bigint   NOT NULL,
-                                    tag_id   INT   NOT NULL,
-                                    PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    content   VARCHAR(255)   NULL,
+    visibility   TINYINT(1)   NULL   DEFAULT 0   ,
+    created_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP ,
+    member_id   bigint   NOT NULL,
+    tag_id   INT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 -- 3) 게시판 좋아요 (post_like)
 CREATE TABLE IF NOT EXISTS post_like (
@@ -219,19 +220,19 @@ CREATE TABLE IF NOT EXISTS post_like (
                                          member_id   bigint   NOT NULL,
                                          post_id   INT   NOT NULL,
                                          PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 
 
 -- 4) 게시판 댓글 (post_comment) + 대댓글 지원
 CREATE TABLE IF NOT EXISTS post_comment (
                                             id   INT   NOT NULL    AUTO_INCREMENT   ,
                                             content   VARCHAR(255)   NOT NULL,
-                                            create_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP,
-                                            post_id   INT   NOT NULL,
-                                            member_id   BIGINT   NOT NULL,
-                                            member_parent_comment_id   INT   NULL,
-                                            PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    create_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP,
+    post_id   INT   NOT NULL,
+    member_id   BIGINT   NOT NULL,
+    member_parent_comment_id   INT   NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 
 
@@ -242,159 +243,159 @@ CREATE TABLE IF NOT EXISTS comment_like (
                                             member_id   bigint   NOT NULL,
                                             post_comment_id   INT   NOT NULL,
                                             PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 
 -- 6) 게시물 파일 업로드 (post_file)
 CREATE TABLE IF NOT EXISTS post_file (
                                          id   INT   NOT NULL    AUTO_INCREMENT   ,
                                          name   VARCHAR(255)   NULL,
-                                         url   VARCHAR(255)   NOT NULL,
-                                         mime_type   VARCHAR(255)   NULL,
-                                         path   VARCHAR(255)   NOT NULL,
-                                         created_at   DATETIME   NULL   DEFAULT CURRENT_TIMESTAMP ,
-                                         state   VARCHAR(255)   NULL,
-                                         re_name   VARCHAR(255)   NULL,
-                                         post_id   INT   NOT NULL,
-                                         extend_file_path_id   INT   NOT NULL,
-                                         PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    url   VARCHAR(255)   NOT NULL,
+    mime_type   VARCHAR(255)   NULL,
+    path   VARCHAR(255)   NOT NULL,
+    created_at   DATETIME   NULL   DEFAULT CURRENT_TIMESTAMP ,
+    state   VARCHAR(255)   NULL,
+    re_name   VARCHAR(255)   NULL,
+    post_id   INT   NOT NULL,
+    extend_file_path_id   INT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS post_tag (
                                         id   INT   NOT NULL    AUTO_INCREMENT   ,
                                         name   VARCHAR(255)   NULL,
-                                        post_id   INT   NOT NULL,
-                                        PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    post_id   INT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS food (
                                     id   BIGINT   NOT NULL   AUTO_INCREMENT,
                                     name   VARCHAR(255)   NOT NULL,
-                                    gram   INTEGER   NOT NULL,
-                                    kcal   DECIMAL(8,2)   NOT NULL,
-                                    carbo   DECIMAL(8,2)   NOT NULL,
-                                    protein   DECIMAL(8,2)   NOT NULL,
-                                    fat   DECIMAL(8,2)   NOT NULL,
-                                    sodium   DECIMAL(10,2)   NOT NULL,
-                                    PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    gram   INTEGER   NOT NULL,
+    kcal   DECIMAL(8,2)   NOT NULL,
+    carbo   DECIMAL(8,2)   NOT NULL,
+    protein   DECIMAL(8,2)   NOT NULL,
+    fat   DECIMAL(8,2)   NOT NULL,
+    sodium   DECIMAL(10,2)   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS meal (
                                     id   BIGINT   NOT NULL   AUTO_INCREMENT ,
                                     type   ENUM('BREAKFAST','LUNCH','DINNER','SNACK')   NOT NULL,
-                                    date   DATE   NOT NULL,
-                                    created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                    member_id   BIGINT   NOT NULL,
-                                    PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    date   DATE   NOT NULL,
+    created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    member_id   BIGINT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS food_fileupload (
                                                id   INT   NOT NULL   AUTO_INCREMENT ,
                                                meal_id   BIGINT   NOT NULL   ,
                                                name   VARCHAR(255)   NOT NULL,
-                                               type   VARCHAR(255)   NOT NULL,
-                                               re_name   VARCHAR(255)   NOT NULL,
-                                               path   VARCHAR(255)   NOT NULL,
-                                               create_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                               upload_order   INT   NOT NULL,
-                                               thumb_path   VARCHAR(255)   NOT NULL,
-                                               extend_file_path_id   BIGINT   NOT NULL,
-                                               PRIMARY KEY (id)
-) ENGINE=INNODB;
+    type   VARCHAR(255)   NOT NULL,
+    re_name   VARCHAR(255)   NOT NULL,
+    path   VARCHAR(255)   NOT NULL,
+    create_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    upload_order   INT   NOT NULL,
+    thumb_path   VARCHAR(255)   NOT NULL,
+    extend_file_path_id   BIGINT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 
 CREATE TABLE IF NOT EXISTS ai_diet (
                                        id   BIGINT   NOT NULL AUTO_INCREMENT   ,
                                        type   ENUM('BREAKFAST','LUNCH','DINNER','SNACK') NOT NULL,
-                                       total_kcal   DECIMAL(8,2) NOT NULL,
-                                       kcal   DECIMAL(8,2)   NOT NULL,
-                                       total_protein   DECIMAL(8,2)   NOT NULL,
-                                       total_fat   DECIMAL(8,2)   NOT NULL,
-                                       created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                       name   VARCHAR(255)   NOT NULL,
-                                       member_id   bigint   NOT NULL,
-                                       PRIMARY KEY (id)
-) ENGINE=INNODB;
+    total_kcal   DECIMAL(8,2) NOT NULL,
+    kcal   DECIMAL(8,2)   NOT NULL,
+    total_protein   DECIMAL(8,2)   NOT NULL,
+    total_fat   DECIMAL(8,2)   NOT NULL,
+    created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    name   VARCHAR(255)   NOT NULL,
+    member_id   bigint   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 
 CREATE TABLE IF NOT EXISTS meal_food (
                                          meal_id   BIGINT   NOT NULL,
                                          food_id   BIGINT   NOT NULL,
                                          PRIMARY KEY (meal_id, food_id)
-) ENGINE=INNODB;
+    ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS report_base (
                                            id INT NOT NULL AUTO_INCREMENT,
                                            title VARCHAR(255) NOT NULL,
-                                           count INT NOT NULL,
-                                           day_of_ban INT DEFAULT 0,
-                                           PRIMARY KEY (id)
-) ENGINE=INNODB;
+    count INT NOT NULL,
+    day_of_ban INT DEFAULT 0,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS report (
                                       id BIGINT NOT NULL AUTO_INCREMENT,
                                       title VARCHAR(255) NOT NULL,
-                                      contents VARCHAR(255) NOT NULL,
-                                      yn BOOLEAN NOT NULL,
-                                      date DATETIME NOT NULL,
-                                      report_image_url VARCHAR(500),
-                                      member_id2 BIGINT NOT NULL,
-                                      post_id INT,
-                                      comment_id INT,
-                                      admin_id BIGINT,
-                                      report_id INT NOT NULL,
-                                      member_id BIGINT NOT NULL,
-                                      PRIMARY KEY (id)
-) ENGINE=INNODB;
+    contents VARCHAR(255) NOT NULL,
+    yn BOOLEAN NOT NULL,
+    date DATETIME NOT NULL,
+    report_image_url VARCHAR(500),
+    member_id2 BIGINT NOT NULL,
+    post_id INT,
+    comment_id INT,
+    admin_id BIGINT,
+    report_id INT NOT NULL,
+    member_id BIGINT NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS report_fileupload (
                                                  id INT NOT NULL AUTO_INCREMENT,
                                                  report_id BIGINT NOT NULL,
                                                  name VARCHAR(255),
-                                                 type VARCHAR(255),
-                                                 `rename` VARCHAR(255),
-                                                 path VARCHAR(255),
-                                                 create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                                 thumb_path VARCHAR(255),
-                                                 upload_order INT DEFAULT 1,
-                                                 extend_file_path_id BIGINT,
-                                                 PRIMARY KEY (id)
-) ENGINE=INNODB;
+    type VARCHAR(255),
+    re_name VARCHAR(255),
+    path VARCHAR(255),
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    thumb_path VARCHAR(255),
+    upload_order INT DEFAULT 1,
+    extend_file_path_id BIGINT,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS exercise (
                                         id INT NOT NULL AUTO_INCREMENT,
                                         date DATE NOT NULL,
                                         type VARCHAR(100) NOT NULL,
-                                        category VARCHAR(50),
-                                        min INT NOT NULL,
-                                        burned_kcal INT NOT NULL,
-                                        create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                        member_id BIGINT NOT NULL,
-                                        PRIMARY KEY (id)
-) ENGINE=INNODB;
+    category VARCHAR(50),
+    min INT NOT NULL,
+    burned_kcal INT NOT NULL,
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    member_id BIGINT NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS exercise_fileupload (
                                                    id INT NOT NULL AUTO_INCREMENT,
                                                    name VARCHAR(255),
-                                                   type VARCHAR(255),
-                                                   re_name VARCHAR(255),
-                                                   path VARCHAR(255),
-                                                   thumb_path VARCHAR(255),
-                                                   upload_order INT DEFAULT 1,
-                                                   create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                                   exercise_id INT NOT NULL,
-                                                   extend_file_path_id BIGINT,
-                                                   PRIMARY KEY (id)
-) ENGINE=INNODB;
+    type VARCHAR(255),
+    re_name VARCHAR(255),
+    path VARCHAR(255),
+    thumb_path VARCHAR(255),
+    upload_order INT DEFAULT 1,
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    exercise_id INT NOT NULL,
+    extend_file_path_id BIGINT,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS black_list (
                                           member_id BIGINT NOT NULL,
                                           create_date DATETIME NOT NULL,
                                           reason VARCHAR(2000) NOT NULL,
-                                          admin_id BIGINT,
-                                          PRIMARY KEY (member_id)
-) ENGINE=INNODB;
+    admin_id BIGINT,
+    PRIMARY KEY (member_id)
+    ) ENGINE=INNODB;
 
 /* DIARY 테이블 */
 
@@ -467,7 +468,7 @@ ALTER TABLE diary_file add CONSTRAINT `fk_diary_to_diary_file_1` FOREIGN KEY (`d
 
 /* BINGO_BOARD */
 CREATE TABLE `bingo_board` (
-                               `id` INT NOT NULL,
+                               `id` INT NOT NULL AUTO_INCREMENT,
                                `title` VARCHAR(255) NOT NULL,
                                `size` INT NOT NULL,
                                `start_date` DATE NOT NULL,
@@ -479,7 +480,7 @@ CREATE TABLE `bingo_board` (
 
 /* BINGO_CELL */
 CREATE TABLE `bingo_cell` (
-                              `id` INT NOT NULL,
+                              `id` INT NOT NULL AUTO_INCREMENT,
                               `row` INT NOT NULL,
                               `col` INT NOT NULL,
                               `label` VARCHAR(255) NOT NULL,
@@ -493,7 +494,7 @@ CREATE TABLE `bingo_cell` (
 
 /* BINGO_FILEUPLOAD */
 CREATE TABLE `bingo_fileupload` (
-                                    `id` INT NOT NULL,
+                                    `id` INT NOT NULL AUTO_INCREMENT,
                                     `name` VARCHAR(500) NOT NULL,
                                     `mime_type` VARCHAR(500) NOT NULL,
                                     `re_name` VARCHAR(255) NULL,
@@ -504,106 +505,105 @@ CREATE TABLE `bingo_fileupload` (
                                     CONSTRAINT pk_bingo_fileupload_id PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-/* GACHA_RESET (리셋 정책 마스터) */
+/* 2-1) 리셋 정책 (옵션) */
 CREATE TABLE `gacha_reset` (
-                               `id` BIGINT NOT NULL,
-                               `name` VARCHAR(255) NULL COMMENT '1: 1등뽑히면 리셋, 2: 모든 경품 뽑히면 리셋, 3: 기간 지나면 리셋',
-                               `use_point` INT NULL COMMENT '사용포인트',
-                               CONSTRAINT pk_gacha_reset_id PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                               `id`          BIGINT       NOT NULL AUTO_INCREMENT,
+                               `name`        VARCHAR(100) NOT NULL COMMENT '정책명',
+                               `policy_type` ENUM('TOP_RANK','TIME','MANUAL','ETC') NOT NULL DEFAULT 'TOP_RANK' COMMENT '리셋 트리거 유형',
+                               `policy_json` JSON         NULL COMMENT '세부 정책(JSON)',
+                               `created_at`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='가챠 리셋 정책';
 
-
-/* GACHA_EVENT */
+/* 2-2) 이벤트 */
 CREATE TABLE `gacha_event` (
-                               `id` BIGINT NOT NULL,
-                               `start_at` DATETIME NOT NULL COMMENT '시작일시',
-                               `point` INT NULL DEFAULT 0,
-                               `end_at` DATETIME NOT NULL COMMENT '종료일시',
-                               `status` ENUM('DRAFT','ACTIVE','PAUSED','ENDED') NOT NULL DEFAULT 'DRAFT' COMMENT '상태(DRAFT:작성중, ACTIVE:진행중, PAUSED:일시중지, ENDED:종료)',
-                               `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
-                               `event_id2` BIGINT NOT NULL COMMENT '리셋 정책 ID',
-                               CONSTRAINT pk_gacha_event_id PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                               `id`                    BIGINT   NOT NULL AUTO_INCREMENT,
+                               `start_at`              DATETIME NOT NULL COMMENT '시작일시',
+                               `end_at`                DATETIME NOT NULL COMMENT '종료일시',
+                               `point`                 INT      NOT NULL DEFAULT 0 COMMENT '뽑기 1회 필요 포인트',
+                               `status`                ENUM('DRAFT','ACTIVE','PAUSED','ENDED') NOT NULL DEFAULT 'DRAFT' COMMENT '상태',
+                               `current_board_version` INT      NOT NULL DEFAULT 1 COMMENT '현재 운영중인 보드 버전',
+                               `gacha_reset_id`        BIGINT   NOT NULL COMMENT '리셋 정책 ID',
+                               `created_at`            DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               `updated_at`            DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='가챠 이벤트';
 
-
-/* GACHA_PRIZE */
+/* 2-3) 경품 */
 CREATE TABLE `gacha_prize` (
-                               `id` BIGINT NOT NULL COMMENT '경품ID',
-                               `name` VARCHAR(100) NOT NULL COMMENT '경품명',
-                               `payload_json` JSON NULL COMMENT '경품내용(JSON: 포인트금액/쿠폰코드/아이템식별 등)',
-                               `prize_type` ENUM('POINT','COUPON','ITEM','NOTHING','ETC') NOT NULL COMMENT '경품종류(포인트/쿠폰/아이템/꽝/기타)',
-                               `rank` INT NULL,
-                               `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
-                               `quantity` INT NULL DEFAULT 0,
-                               `gacha_event_id` BIGINT NOT NULL,
-                               CONSTRAINT pk_gacha_prize_id PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                               `id`             BIGINT       NOT NULL AUTO_INCREMENT COMMENT '경품ID',
+                               `name`           VARCHAR(100) NOT NULL COMMENT '경품명',
+                               `payload_json`   JSON         NULL COMMENT '지급 페이로드(JSON)',
+                               `prize_type`     ENUM('POINT','COUPON','ITEM','NOTHING','ETC') NOT NULL COMMENT '경품종류',
+                               `rank`           INT          NOT NULL COMMENT '등급(작을수록 상위, 예: 1=최고)',
+                               `gacha_event_id` BIGINT       NOT NULL COMMENT '소속 이벤트',
+                               `created_at`     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               `updated_at`     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='가챠 경품';
 
-
-/* GACHA_QUANTITY (경품 재고 수량 - 경품ID 1:1) */
+/* 2-4) 경품 전체 재고(선택: 1:1) */
 CREATE TABLE `gacha_quantity` (
-                                  `id` BIGINT NOT NULL COMMENT '경품ID',
-                                  `count` INT NULL,
-                                  CONSTRAINT pk_gacha_quantity_id PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                                  `id`    BIGINT NOT NULL COMMENT 'gacha_prize.id 와 동일',
+                                  `count` INT    NOT NULL DEFAULT 0 COMMENT '전체 재고(남은 수량)',
+                                  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='경품 전체 재고(옵션)';
 
+/* 2-5) 보드 시딩 분포(한 판에 몇 개씩 넣을지) */
+CREATE TABLE `gacha_board_seed` (
+                                    `id`              BIGINT NOT NULL AUTO_INCREMENT,
+                                    `gacha_event_id`  BIGINT NOT NULL,
+                                    `gacha_prize_id`  BIGINT NOT NULL,
+                                    `count_per_board` INT    NOT NULL COMMENT '10x10=100칸 중 이 경품의 칸 수',
+                                    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='보드 시딩 분포 정의(합계는 반드시 100)';
 
-/* GACHA_BOARD_CELL (사용자별 보드 셀 상태) */
-CREATE TABLE `gacha_board_cell` (
-                                    `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                    `status` ENUM('COVERED','OPENED') NOT NULL DEFAULT 'COVERED',
-                                    `opened_at` DATETIME NULL,
-                                    `rows` INT NULL,
-                                    `cols` INT NULL,
-                                    `opened_count` INT NULL,
-                                    `created_at` DATETIME NULL,
-                                    `updated_at` DATETIME NULL,
-                                    `gacha_prize_id` BIGINT NOT NULL COMMENT '경품ID',
-                                    `gacha_event_id` BIGINT NOT NULL,
-                                    `member_id` BIGINT NOT NULL COMMENT '해당 칸을 오픈 한 회원ID',
-                                    CONSTRAINT pk_gacha_board_cell_id PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/* 2-6) 공유 보드(핵심) - 10x10 셀, 버전별로 보관 */
+CREATE TABLE `gacha_shared_board` (
+                                      `id`                  BIGINT   NOT NULL AUTO_INCREMENT,
+                                      `gacha_event_id`      BIGINT   NOT NULL COMMENT '이벤트 ID',
+                                      `board_version`       INT      NOT NULL DEFAULT 1 COMMENT '보드 버전',
+                                      `row`                 INT      NOT NULL COMMENT '행(1~10)',
+                                      `col`                 INT      NOT NULL COMMENT '열(1~10)',
+                                      `gacha_prize_id`      BIGINT   NOT NULL COMMENT '경품 ID',
+                                      `status`              ENUM('COVERED','OPENED') NOT NULL DEFAULT 'COVERED' COMMENT '셀 상태',
+                                      `opened_by_member_id` BIGINT   NULL COMMENT '오픈한 회원ID',
+                                      `opened_at`           DATETIME NULL COMMENT '오픈 시각',
+                                      `version`             INT      NOT NULL DEFAULT 0 COMMENT '낙관적 락 버전',
+                                      `created_at`          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                      `updated_at`          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                      PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='공유 가챠 보드(10x10), 버전 운영';
 
-
-/* GACHA_DRAW_LOG (뽑기실행로그) */
+/* 2-7) 뽑기 실행 로그 */
 CREATE TABLE `gacha_draw_log` (
-                                  `id` INT NOT NULL AUTO_INCREMENT COMMENT '뽑기실행로그번호',
-                                  `created_at` DATETIME NOT NULL COMMENT '뽑기실행로그생성일',
-                                  `member_id` BIGINT NOT NULL COMMENT '회원번호',
-                                  `gacha_board_cell_id` BIGINT NOT NULL COMMENT '뽑기보드칸번호',
-                                  `gacha_prize_id` BIGINT NOT NULL COMMENT '뽑기경품번호',
-                                  CONSTRAINT pk_gacha_draw_log_id PRIMARY KEY(`id`)
-) ENGINE=InnoDB COMMENT '뽑기실행로그';
+                                  `id`                    BIGINT   NOT NULL AUTO_INCREMENT COMMENT '로그ID',
+                                  `created_at`            DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성시각',
+                                  `updated_at`            DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정시각',
+                                  `member_id`             BIGINT   NOT NULL COMMENT '회원ID',
+                                  `gacha_event_id`        BIGINT   NOT NULL COMMENT '이벤트ID (그 당시)',
+                                  `gacha_shared_board_id` BIGINT   NOT NULL COMMENT '해당 셀ID',
+                                  `board_version`         INT      NOT NULL COMMENT '보드 버전(당시)',
+                                  `prize_id`              BIGINT   NOT NULL COMMENT '당첨 경품ID',
+                                  `prize_rank`            INT      NULL  COMMENT '당시 경품 랭크(선택)',
+                                  `result_code`           ENUM('SUCCESS','ALREADY_OPENED','OUT_OF_STOCK','INVALID','ERROR')
+                                                                   NOT NULL DEFAULT 'SUCCESS' COMMENT '결과 코드',
+                                  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='뽑기 실행 로그';
 
-/* GACHA_REWARD_GRANT (지급 로그) */
+/* 2-8) 지급 로그(큐) */
 CREATE TABLE `gacha_reward_grant` (
-                                      `id` BIGINT NOT NULL,
-                                      `grant_status` ENUM('QUEUED','GRANTED','FAILED') NOT NULL DEFAULT 'QUEUED' COMMENT '지급상태',
-                                      `granted_at` DATETIME NULL COMMENT '지급일시',
-                                      `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
-                                      `gacha_board_cell_id` BIGINT NOT NULL,
-                                      CONSTRAINT pk_gacha_reward_grant_id PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-/* GACHA_FILEUPLOAD */
-CREATE TABLE `gacha_fileupload` (
-                                    `id` INT NOT NULL,
-                                    `extend_file_path_id` BIGINT NOT NULL,
-                                    `gacha_event_id` BIGINT NOT NULL,
-                                    `name` VARCHAR(255) NOT NULL,
-                                    `mime_type` VARCHAR(255) NOT NULL,
-                                    `re_name` VARCHAR(255) NULL,
-                                    `url` VARCHAR(255) NOT NULL,
-                                    `create_at` DATETIME NULL,
-                                    CONSTRAINT pk_gacha_fileupload_id PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+                                      `id`                    BIGINT      NOT NULL AUTO_INCREMENT,
+                                      `grant_status`          ENUM('QUEUED','GRANTED','FAILED') NOT NULL DEFAULT 'QUEUED' COMMENT '지급상태',
+                                      `granted_at`            DATETIME    NULL COMMENT '지급시각',
+                                      `created_at`            DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                      `gacha_shared_board_id` BIGINT      NOT NULL,
+                                      PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='경품 지급 처리 로그';
 
 /* POINT (적립/사용 내역) */
 CREATE TABLE `point` (
-                         `point_id` BIGINT NOT NULL,
+                         `point_id` BIGINT NOT NULL AUTO_INCREMENT,
                          `point` INT NULL,
                          `distinction` ENUM('EARN','USE') NULL COMMENT '1: 획득(EARN), 2: 사용(USE)',
                          `member_id` BIGINT NOT NULL,
@@ -614,25 +614,35 @@ CREATE TABLE `point` (
                          CONSTRAINT pk_point_point_id PRIMARY KEY (`point_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
+
 CREATE TABLE IF NOT EXISTS member_allergy (
-	id	INT	NOT NULL	AUTO_INCREMENT,
-	member_id	BIGINT	NOT NULL,
-	allergy_id	INT	NOT NULL,
-	PRIMARY KEY (id)
-) ENGINE=InnoDB;
+                                              id	INT	NOT NULL	AUTO_INCREMENT,
+                                              member_id	BIGINT	NOT NULL,
+                                              allergy_id	INT	NOT NULL,
+                                              PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS allergy (
-	id	INT	NOT NULL	AUTO_INCREMENT ,
-	name	VARCHAR(255)	NOT NULL,
-	PRIMARY KEY (id)
-) ENGINE=INNODB;
+                                       id	INT	NOT NULL	AUTO_INCREMENT ,
+                                       name	VARCHAR(255)	NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS food_allergy (
-	id	BIGINT	NOT NULL	AUTO_INCREMENT ,
-	meal_id	BIGINT	NOT NULL,
-	allergy_id	BIGINT	NOT NULL,
-	PRIMARY KEY (id)
-) ENGINE=INNODB;
+                                            id	BIGINT	NOT NULL	AUTO_INCREMENT ,
+                                            meal_id	BIGINT	NOT NULL,
+                                            allergy_id	BIGINT	NOT NULL,
+                                            PRIMARY KEY (id)
+    ) ENGINE=INNODB;
+
+    
+create TABLE IF NOT EXISTS table base_of_point(
+	id int not null auto_increment,
+	description varchar(2000),
+	point int not null,
+	constraint pk_base_of_point_id primary key(id)
+)
+
 
 -- ----- 제약조건 ----------
 -- ✅ 외래키 검사 다시 활성화
@@ -744,50 +754,66 @@ ALTER TABLE `bingo_fileupload`
         FOREIGN KEY (`bingo_cell_id`) REFERENCES `bingo_cell`(`id`)
             ON DELETE CASCADE ON UPDATE CASCADE;
 
-/* gacha_event → gacha_reset */
+/* gacha_event */
 ALTER TABLE `gacha_event`
-    ADD CONSTRAINT `fk_gacha_event_gacha_reset`
-        FOREIGN KEY (`event_id2`) REFERENCES `gacha_reset`(`id`)
+    ADD CONSTRAINT `fk_gacha_event_reset`
+        FOREIGN KEY (`gacha_reset_id`) REFERENCES `gacha_reset`(`id`)
             ON DELETE RESTRICT ON UPDATE CASCADE;
 
-/* gacha_prize → gacha_event */
+/* gacha_prize */
 ALTER TABLE `gacha_prize`
-    ADD CONSTRAINT `fk_gacha_prize_gacha_event`
+    ADD CONSTRAINT `fk_gacha_prize_event`
         FOREIGN KEY (`gacha_event_id`) REFERENCES `gacha_event`(`id`)
             ON DELETE CASCADE ON UPDATE CASCADE;
 
-/* gacha_quantity(PK=ID) → gacha_prize(ID) */
+/* gacha_quantity */
 ALTER TABLE `gacha_quantity`
-    ADD CONSTRAINT `fk_gacha_quantity_gacha_prize`
+    ADD CONSTRAINT `fk_gacha_quantity_prize`
         FOREIGN KEY (`id`) REFERENCES `gacha_prize`(`id`)
             ON DELETE CASCADE ON UPDATE CASCADE;
 
-/* gacha_board_cell → gacha_prize / gacha_event / member */
-ALTER TABLE `gacha_board_cell`
-    ADD CONSTRAINT `fk_gacha_board_cell_gacha_prize`
+/* gacha_board_seed */
+ALTER TABLE `gacha_board_seed`
+    ADD CONSTRAINT `fk_seed_event`
+        FOREIGN KEY (`gacha_event_id`) REFERENCES `gacha_event`(`id`)
+            ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `fk_seed_prize`
         FOREIGN KEY (`gacha_prize_id`) REFERENCES `gacha_prize`(`id`)
-            ON DELETE RESTRICT ON UPDATE CASCADE;
+            ON DELETE RESTRICT ON UPDATE CASCADE,
+    ADD UNIQUE KEY `uk_seed_event_prize` (`gacha_event_id`,`gacha_prize_id`);
 
-ALTER TABLE `gacha_board_cell`
-    ADD CONSTRAINT `fk_gacha_board_cell_gacha_event`
+/* gacha_shared_board */
+ALTER TABLE `gacha_shared_board`
+    ADD CONSTRAINT `fk_shared_board_event`
         FOREIGN KEY (`gacha_event_id`) REFERENCES `gacha_event`(`id`)
-            ON DELETE CASCADE ON UPDATE CASCADE;
+            ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `fk_shared_board_prize`
+        FOREIGN KEY (`gacha_prize_id`) REFERENCES `gacha_prize`(`id`)
+            ON DELETE RESTRICT ON UPDATE CASCADE,
+    ADD CONSTRAINT `fk_shared_board_member`
+        FOREIGN KEY (`opened_by_member_id`) REFERENCES `member`(`id`)
+            ON DELETE SET NULL ON UPDATE CASCADE,
+    ADD UNIQUE KEY `uk_event_version_position` (`gacha_event_id`,`board_version`,`row`,`col`);
 
-ALTER TABLE `gacha_board_cell`
-    ADD CONSTRAINT `fk_gacha_board_cell_member`
+/* gacha_draw_log */
+ALTER TABLE `gacha_draw_log`
+    ADD CONSTRAINT `fk_drawlog_member`
         FOREIGN KEY (`member_id`) REFERENCES `member`(`id`)
+            ON DELETE RESTRICT ON UPDATE CASCADE,
+    ADD CONSTRAINT `fk_drawlog_shared_board`
+        FOREIGN KEY (`gacha_shared_board_id`) REFERENCES `gacha_shared_board`(`id`)
+            ON DELETE RESTRICT ON UPDATE CASCADE,
+    ADD CONSTRAINT `fk_drawlog_event`
+        FOREIGN KEY (`gacha_event_id`) REFERENCES `gacha_event`(`id`)
+            ON DELETE RESTRICT ON UPDATE CASCADE,
+    ADD CONSTRAINT `fk_drawlog_prize`
+        FOREIGN KEY (`prize_id`) REFERENCES `gacha_prize`(`id`)
             ON DELETE RESTRICT ON UPDATE CASCADE;
 
-/* gacha_reward_grant → gacha_board_cell */
+/* gacha_reward_grant */
 ALTER TABLE `gacha_reward_grant`
-    ADD CONSTRAINT `fk_gacha_reward_grant_gacha_board_cell`
-        FOREIGN KEY (`gacha_board_cell_id`) REFERENCES `gacha_board_cell`(`id`)
-            ON DELETE CASCADE ON UPDATE CASCADE;
-
-/* gacha_fileupload → gacha_event (이름 고유하게 다시 추가) */
-ALTER TABLE `gacha_fileupload`
-    ADD CONSTRAINT `fk_gacha_fileupload_gacha_event_id`
-        FOREIGN KEY (`gacha_event_id`) REFERENCES `gacha_event`(`id`)
+    ADD CONSTRAINT `fk_reward_shared_board`
+        FOREIGN KEY (`gacha_shared_board_id`) REFERENCES `gacha_shared_board`(`id`)
             ON DELETE CASCADE ON UPDATE CASCADE;
 
 /* point → member / diary / calender (각각 고유 이름) */
@@ -809,6 +835,7 @@ ALTER TABLE `point`
 ALTER TABLE point
     ADD CONSTRAINT fk_point_gacha_event_id
         FOREIGN KEY (gacha_event_id) REFERENCES gacha_event(id);
+
 ALTER TABLE point
     ADD CONSTRAINT fk_point_bingo_board_id
         FOREIGN KEY (bingo_board_id) REFERENCES bingo_board(id);
