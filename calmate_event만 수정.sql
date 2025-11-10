@@ -52,8 +52,6 @@ DROP TABLE IF EXISTS bingo_board;
 
 DROP TABLE IF EXISTS point;
 
-DROP TABLE IF EXISTS gacha_reset;
-
 DROP TABLE IF EXISTS member_allergy;
 DROP TABLE IF EXISTS allergy;
 DROP TABLE IF EXISTS food_allergy;
