@@ -206,13 +206,14 @@ CREATE TABLE IF NOT EXISTS tag (
 CREATE TABLE IF NOT EXISTS post (
                                     id   INT   NOT NULL    AUTO_INCREMENT   ,
                                     title   VARCHAR(255)   NOT NULL,
-                                    content   VARCHAR(255)   NULL,
-                                    visibility   TINYINT(1)   NULL   DEFAULT 0   ,
-                                    created_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP ,
-                                    member_id   bigint   NOT NULL,
-                                    tag_id   INT   NOT NULL,
-                                    PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    content   VARCHAR(255)   NULL,
+    visibility   TINYINT(1)   NULL   DEFAULT 0   ,
+    created_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP ,
+    member_id   bigint   NOT NULL,
+    tag_id   INT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
+
 
 -- 3) 게시판 좋아요 (post_like)
 CREATE TABLE IF NOT EXISTS post_like (
@@ -221,19 +222,19 @@ CREATE TABLE IF NOT EXISTS post_like (
                                          member_id   bigint   NOT NULL,
                                          post_id   INT   NOT NULL,
                                          PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 
 
 -- 4) 게시판 댓글 (post_comment) + 대댓글 지원
 CREATE TABLE IF NOT EXISTS post_comment (
                                             id   INT   NOT NULL    AUTO_INCREMENT   ,
                                             content   VARCHAR(255)   NOT NULL,
-                                            create_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP,
-                                            post_id   INT   NOT NULL,
-                                            member_id   BIGINT   NOT NULL,
-                                            member_parent_comment_id   INT   NULL,
-                                            PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    create_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP,
+    post_id   INT   NOT NULL,
+    member_id   BIGINT   NOT NULL,
+    member_parent_comment_id   INT   NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 
 
@@ -244,30 +245,30 @@ CREATE TABLE IF NOT EXISTS comment_like (
                                             member_id   bigint   NOT NULL,
                                             post_comment_id   INT   NOT NULL,
                                             PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 
 -- 6) 게시물 파일 업로드 (post_file)
 CREATE TABLE IF NOT EXISTS post_file (
                                          id   INT   NOT NULL    AUTO_INCREMENT   ,
                                          name   VARCHAR(255)   NULL,
-                                         url   VARCHAR(255)   NOT NULL,
-                                         mime_type   VARCHAR(255)   NULL,
-                                         path   VARCHAR(255)   NOT NULL,
-                                         created_at   DATETIME   NULL   DEFAULT CURRENT_TIMESTAMP ,
-                                         state   VARCHAR(255)   NULL,
-                                         re_name   VARCHAR(255)   NULL,
-                                         post_id   INT   NOT NULL,
-                                         extend_file_path_id   INT   NOT NULL,
-                                         PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    url   VARCHAR(255)   NOT NULL,
+    mime_type   VARCHAR(255)   NULL,
+    path   VARCHAR(255)   NOT NULL,
+    created_at   DATETIME   NULL   DEFAULT CURRENT_TIMESTAMP ,
+    state   VARCHAR(255)   NULL,
+    re_name   VARCHAR(255)   NULL,
+    post_id   INT   NOT NULL,
+    extend_file_path_id   BIGINT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS post_tag (
                                         id   INT   NOT NULL    AUTO_INCREMENT   ,
                                         name   VARCHAR(255)   NULL,
-                                        post_id   INT   NOT NULL,
-                                        PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    post_id   INT   NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS food (
@@ -666,21 +667,26 @@ SET FOREIGN_KEY_CHECKS = 1;
 ALTER TABLE post add CONSTRAINT fk_post_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE post add CONSTRAINT fk_post_tag FOREIGN KEY (tag_id) REFERENCES tag(id);
 
-ALTER TABLE post_like add CONSTRAINT fk_postlike_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_like add CONSTRAINT fk_postlike_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
 ALTER TABLE post_like add CONSTRAINT fk_postlike_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE post_like add CONSTRAINT uq_post_like UNIQUE (post_id, member_id);
 
-ALTER TABLE post_comment add CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_comment add CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
 ALTER TABLE post_comment add CONSTRAINT fk_comment_member FOREIGN KEY (member_id) REFERENCES member(id);
-ALTER TABLE post_comment add CONSTRAINT fk_comment_parent FOREIGN KEY (member_parent_comment_id) REFERENCES post_comment(id);
+ALTER TABLE post_comment add CONSTRAINT fk_comment_parent FOREIGN KEY (member_parent_comment_id) REFERENCES post_comment(id) ON DELETE CASCADE;
 
-ALTER TABLE comment_like add CONSTRAINT fk_cmtlike_comment FOREIGN KEY (post_comment_id) REFERENCES post_comment(id);
+ALTER TABLE comment_like add CONSTRAINT fk_cmtlike_comment FOREIGN KEY (post_comment_id) REFERENCES post_comment(id) ON DELETE CASCADE;
 ALTER TABLE comment_like add CONSTRAINT fk_cmtlike_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE comment_like add CONSTRAINT uq_comment_like UNIQUE (post_comment_id, member_id);
 
-ALTER TABLE post_file add CONSTRAINT fk_postfile_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_file add CONSTRAINT fk_postfile_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
+ALTER TABLE post_file
+    ADD CONSTRAINT fk_postfile_extend_path
+        FOREIGN KEY (extend_file_path_id)
+            REFERENCES extend_file_path(id)
+            ON DELETE CASCADE;
 
-ALTER TABLE post_tag add CONSTRAINT fk_posttag_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_tag add CONSTRAINT fk_posttag_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;;
 
 alter table upload_file add constraint fk_upload_file_member  foreign key(member_id)  references member(id);
 alter table upload_file add constraint fk_upload_file_extend_file_path  foreign key(extend_file_path_id)  references extend_file_path(id);
