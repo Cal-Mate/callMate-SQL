@@ -29,12 +29,12 @@ VALUES
     ('휴먼상태'),
     ('블랙리스트');
 
-INSERT INTO member_rank(
-    NAME , badge_count )
-VALUES
-    ('새싹이',0),
-    ('튼튼이',20),
-    ('헬린이',50);
+INSERT INTO member_rank (id, name, badge_count) VALUES
+                                                    (1, '스타터', 0),
+                                                    (2, '챌린저', 21),
+                                                    (3, '파이터', 51),
+                                                    (4, '프로', 151),
+                                                    (5, '챔피언', 365);
 
 
 INSERT INTO member (
@@ -103,6 +103,7 @@ INSERT INTO post_like (post_id, member_id) VALUES
                                                (9, 2);
 
 
+
 -- 일반 댓글 (1~6)
 INSERT INTO post_comment (content, post_id, member_id) VALUES
                                                            ('자극받고 갑니다🔥', 1, 4),   -- comment_id = 1
@@ -149,7 +150,35 @@ VALUES
 
 
 INSERT INTO extend_file_path (url_path) VALUES
-                                            ('http://localhost:8081/')
+                                            ('http://localhost:8081/uploads/'),
+                                            ('http://192.168.0.1:8080/upload/2'),
+                                            ('http://192.168.0.1:8080/upload/3'),
+                                            ('http://192.168.0.1:8080/upload/4'),
+                                            ('http://192.168.0.1:8080/upload/5'),
+                                            ('http://192.168.0.1:8080/upload/6'),
+                                            ('http://192.168.0.1:8080/upload/7'),
+                                            ('http://192.168.0.1:8080/upload/8'),
+                                            ('http://192.168.0.1:8080/upload/9'),
+                                            ('http://192.168.0.1:8080/upload/10'),
+                                            ('http://192.168.0.1:8080/upload/11'),
+                                            ('http://192.168.0.1:8080/upload/12'),
+                                            ('http://192.168.0.1:8080/upload/13'),
+                                            ('http://192.168.0.1:8080/upload/14'),
+                                            ('http://192.168.0.1:8080/upload/15'),
+                                            ('http://192.168.0.1:8080/upload/16'),
+                                            ('http://192.168.0.1:8080/upload/17'),
+                                            ('http://192.168.0.1:8080/upload/18'),
+                                            ('http://192.168.0.1:8080/upload/19'),
+                                            ('http://192.168.0.1:8080/upload/20'),
+                                            ('http://192.168.0.1:8080/upload/21'),
+                                            ('http://192.168.0.1:8080/upload/22'),
+                                            ('http://192.168.0.1:8080/upload/23'),
+                                            ('http://192.168.0.1:8080/upload/24'),
+                                            ('http://192.168.0.1:8080/upload/25'),
+                                            ('http://192.168.0.1:8080/upload/26'),
+                                            ('http://192.168.0.1:8080/upload/27'),
+                                            ('http://192.168.0.1:8080/upload/28'),
+                                            ('http://192.168.0.1:8080/upload/29');
 
 
 
@@ -518,18 +547,19 @@ INSERT INTO `qna_comment` (`comment`, `created_at`, `qna_id`, `member_id`, `pare
 
 
 INSERT INTO `calendar`
-(`cal_day`, `exercise_status`, `meal_status`, `diary_status`, `badge_yn`, `member_id`)
+(`cal_day`, `badge_count`, `exercise_status`, `meal_status`, `diary_status`, `badge_yn`, `member_id`)
 VALUES
-    ('2025-11-01', 1, 1, 1,1,1),
-    ('2025-11-02', 0, 1, 1, 0,1),
-    ('2025-11-03', 1, 1, 1, 1,2),
-    ('2025-11-04', 0, 1, 0, 0,3),
-    ('2025-11-05', 1, 1, 1, 1,4),
-    ('2025-11-06', 1, 0, 1, 0,2),
-    ('2025-11-07', 1, 1, 1, 1, 5),
-    ('2025-11-08', 0, 0, 1, 0,3),
-    ('2025-11-09', 1, 1, 0,0, 6),
-    ('2025-11-10', 1, 1, 1, 1, 1);
+    ('2025-11-01', 1, 1, 1, 1, 1, 1),
+    ('2025-11-02', 0, 1, 0, 1, 0, 1),
+    ('2025-11-03', 1, 1, 1, 1, 1, 1),
+    ('2025-11-04', 0, 0, 1, 1, 0, 1),
+    ('2025-11-05', 1, 1, 1, 1, 1, 2),
+    ('2025-11-06', 0, 1, 1, 0, 0, 2),
+    ('2025-11-07', 1, 1, 1, 1, 1, 2),
+    ('2025-11-08', 1, 1, 1, 1, 1, 3),
+    ('2025-11-09', 0, 1, 0, 0, 0, 3),
+    ('2025-11-10', 1, 1, 1, 1, 1, 3);
+
 
 /* 6) 빙고 보드 */
 INSERT INTO bingo_board (id, title, size, start_date, end_date, created_at, member_id) VALUES
@@ -577,11 +607,11 @@ VALUES
 
 INSERT INTO gacha_quantity (id, count)
 VALUES
-    (1, 5),   -- 다이아몬드 상자
-    (2, 20),  -- 골드 쿠폰
-    (3, 100), -- 1000 포인트
-    (4, 300), -- 100 포인트
-    (5, 9999); -- 꽝
+    (1, 1),   -- 다이아몬드 상자
+    (2, 2),  -- 골드 쿠폰
+    (3, 15), -- 1000 포인트
+    (4, 32), -- 100 포인트
+    (5, 50); -- 꽝
 
 INSERT INTO gacha_board_seed (gacha_event_id, gacha_prize_id, count_per_board)
 VALUES
@@ -701,10 +731,6 @@ VALUES
 INSERT INTO gacha_reward_grant (gacha_shared_board_id, grant_status)
 VALUES (10, 'QUEUED');
 
-/* 14) 포인트 내역 */
-INSERT INTO point (point_id, point, distinction, member_id, diary_id, calender_id, gacha_event_id, bingo_board_id) VALUES
-                                                                                                                       (1, 100, 'EARN', 1, 1, 1, 1, 1),
-                                                                                                                       (2,  50,  'USE', 1, 1, 1, 1, 1);
 -- ----------------------------
 -- 1. allergy (알러지 마스터 목록) 더미 데이터
 -- (ID가 1, 2, 3으로 자동 생성됨)
@@ -735,4 +761,4 @@ INSERT INTO food_allergy (meal_id, allergy_id) VALUES
 insert into base_of_point
 (description, point )
 values ('일별 로그인 흭득 포인트', 10),
-('회원가입 흭득 포인트', 1000);
+       ('회원가입 흭득 포인트', 1000);
