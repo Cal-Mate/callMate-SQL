@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `exercise`;
 DROP TABLE IF EXISTS `black_list`;
 DROP TABLE IF EXISTS `diary`;
 DROP TABLE IF EXISTS `qna`;
-DROP TABLE IF EXISTS `calender`;
+DROP TABLE IF EXISTS `calendar`;
 DROP TABLE IF EXISTS `diary_file`;
 DROP TABLE IF EXISTS `qna_comment`;
 DROP TABLE IF EXISTS `gacha_reward_grant`;
@@ -454,17 +454,20 @@ CREATE TABLE `qna_comment` (
 
 /* CALENDER 테이블 */
 
-CREATE TABLE `calender` (
+CREATE TABLE `calendar` (
                             `id` BIGINT NOT NULL AUTO_INCREMENT,
-                            `cal_day` DATETIME NOT NULL,
-                            `badge_count` INT NOT NULL,
-                            `exercise_status` INT NOT NULL DEFAULT 0,
-                            `meal_status` INT NOT NULL DEFAULT 0,
-                            `diary_status` INT NOT NULL DEFAULT 0,
-                            `member_id` BIGINT NOT NULL DEFAULT 0,
-                            CONSTRAINT `pk_calender` PRIMARY KEY (`id`)
+                            `cal_day` DATE NOT NULL,
+                            `exercise_status` TINYINT NOT NULL DEFAULT 0,
+                            `meal_status` TINYINT NOT NULL DEFAULT 0,
+                            `diary_status` TINYINT NOT NULL DEFAULT 0,
+                            `badge_yn` TINYINT(1) NOT NULL DEFAULT 0,
+                            `member_id` BIGINT NOT NULL,
+                            CONSTRAINT `pk_calendar` PRIMARY KEY (`id`),
+                            CONSTRAINT `uq_calendar_member_day` UNIQUE (`member_id`, `cal_day`),
+                            CONSTRAINT `chk_exercise_status` CHECK (`exercise_status` IN (0,1)),
+                            CONSTRAINT `chk_meal_status` CHECK (`meal_status` IN (0,1)),
+                            CONSTRAINT `chk_diary_status` CHECK (`diary_status` IN (0,1))
 ) ENGINE=InnoDB COMMENT='캘린더';
-ALTER TABLE diary_file add CONSTRAINT `fk_diary_to_diary_file_1` FOREIGN KEY (`diary_id`) REFERENCES `diary` (`id`);
 
 /* BINGO_BOARD */
 CREATE TABLE `bingo_board` (
@@ -501,7 +504,7 @@ CREATE TABLE `bingo_fileupload` (
                                     `path` VARCHAR(255) NOT NULL,
                                     `created_at` DATETIME NULL,
                                     `bingo_cell_id` INT NOT NULL,
-                                    `extend_file_path_id` INT NOT NULL,
+                                    `extend_file_path_id` BIGINT NOT NULL,
                                     CONSTRAINT pk_bingo_fileupload_id PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -607,10 +610,11 @@ CREATE TABLE `point` (
                          `point` INT NULL,
                          `distinction` ENUM('EARN','USE') NULL COMMENT '1: 획득(EARN), 2: 사용(USE)',
                          `member_id` BIGINT NOT NULL,
-                         `diary_id` INT NOT NULL,
-                         `calender_id` BIGINT NOT NULL,
-                         `gacha_event_id` BIGINT NOT NULL,
-                         `bingo_board_id` INT NOT NULL,
+                         `diary_id` INT  NULL,
+                         `calender_id` BIGINT  NULL,
+                         `gacha_event_id` BIGINT  NULL,
+                         `bingo_board_id` INT  NULL,
+                         histoy_time datetime not null default now(),
                          CONSTRAINT pk_point_point_id PRIMARY KEY (`point_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
@@ -726,7 +730,7 @@ ALTER TABLE qna_comment add CONSTRAINT `fk_qna_comment_to_qna_comment_1` FOREIGN
 
 
 
-ALTER TABLE calender add CONSTRAINT `fk_member_to_calender_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
+ALTER TABLE calendar add CONSTRAINT `fk_member_to_calender_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
 
 
 
@@ -829,7 +833,7 @@ ALTER TABLE `point`
 
 ALTER TABLE `point`
     ADD CONSTRAINT `fk_point_calender_id`
-        FOREIGN KEY (`calender_id`) REFERENCES `calender`(`id`)
+        FOREIGN KEY (`calender_id`) REFERENCES `calendar`(`id`)
             ON DELETE RESTRICT ON UPDATE CASCADE;
 
 ALTER TABLE point
