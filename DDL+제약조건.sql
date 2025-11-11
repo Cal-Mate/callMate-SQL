@@ -1,5 +1,5 @@
 SET FOREIGN_KEY_CHECKS = 0;
-
+DROP TABLE IF EXISTS point;
 DROP TABLE IF EXISTS comment_like;
 DROP TABLE IF EXISTS post_comment;
 DROP TABLE IF EXISTS post_like;
@@ -658,6 +658,19 @@ create TABLE IF NOT EXISTS base_of_point(
                                             point int not null,
                                             constraint pk_base_of_point_id primary key(id)
 ) ENGINE=INNODB;
+
+CREATE TABLE `point` (
+                         `point_id` BIGINT NOT NULL AUTO_INCREMENT,
+                         `point` INT NULL,
+                         `distinction` ENUM('EARN','USE') NULL COMMENT '1: 획득(EARN), 2: 사용(USE)',
+                         `member_id` BIGINT NOT NULL,
+                         `diary_id` INT  NULL,
+                         `calender_id` BIGINT  NULL,
+                         `gacha_event_id` BIGINT  NULL,
+                         `bingo_board_id` INT  NULL,
+                         histoy_time datetime not null default now(),
+                         CONSTRAINT pk_point_point_id PRIMARY KEY (`point_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 
 -- ----- 제약조건 ----------
