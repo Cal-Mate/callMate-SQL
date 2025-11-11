@@ -64,7 +64,6 @@ VALUES
     ('신채호', '단재', 'shinchaeho@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-2020-2121', 'M', '1880-12-08', 174.00, 70.00, 1, 79, NOW(), 0, NULL, NULL, 1, 1);
 
 
-
 INSERT INTO post (title, content, member_id, tag_id) VALUES
                                                          ('오늘 하체 찢고 왔다', '레그데이 난이도 상🔥', 1, 1),
                                                          ('단백질 샐러드 추천', '닭가슴살+아보카도 조합 미쳤다', 2, 2),
@@ -103,7 +102,6 @@ INSERT INTO post_like (post_id, member_id) VALUES
                                                (9, 2);
 
 
-
 -- 일반 댓글 (1~6)
 INSERT INTO post_comment (content, post_id, member_id) VALUES
                                                            ('자극받고 갑니다🔥', 1, 4),   -- comment_id = 1
@@ -132,21 +130,6 @@ INSERT INTO comment_like (post_comment_id, member_id) VALUES
                                                           (7, 5),
                                                           (8, 4),
                                                           (9, 3);
-
-
-INSERT INTO post_file (name, url, mime_type, path, state, re_name, post_id,extend_file_path_id)
-VALUES
-    ('post1.jpg', '/upload/post1.jpg', 'image/jpeg', '/var/upload/post1.jpg', 'ACTIVE', 'p1.jpg', 1,5),
-    ('post2.jpg', '/upload/post2.jpg', 'image/jpeg', '/var/upload/post2.jpg', 'ACTIVE', 'p2.jpg', 2,6),
-    ('post3.jpg', '/upload/post3.jpg', 'image/jpeg', '/var/upload/post3.jpg', 'ACTIVE', 'p3.jpg', 3,7),
-    ('post4.jpg', '/upload/post4.jpg', 'image/jpeg', '/var/upload/post4.jpg', 'ACTIVE', 'p4.jpg', 4,8),
-    ('post5.jpg', '/upload/post5.jpg', 'image/jpeg', '/var/upload/post5.jpg', 'ACTIVE', 'p5.jpg', 5,9),
-    ('post6.jpg', '/upload/post6.jpg', 'image/jpeg', '/var/upload/post6.jpg', 'ACTIVE', 'p6.jpg', 6,11),
-    ('post7.jpg', '/upload/post7.jpg', 'image/jpeg', '/var/upload/post7.jpg', 'ACTIVE', 'p7.jpg', 7,12),
-    ('post8.jpg', '/upload/post8.jpg', 'image/jpeg', '/var/upload/post8.jpg', 'ACTIVE', 'p8.jpg', 8,16),
-    ('post9.jpg', '/upload/post9.jpg', 'image/jpeg', '/var/upload/post9.jpg', 'ACTIVE', 'p9.jpg', 9,17),
-    ('post10.jpg', '/upload/post10.jpg', 'image/jpeg', '/var/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,18);
-
 
 
 INSERT INTO extend_file_path (url_path) VALUES
@@ -180,6 +163,18 @@ INSERT INTO extend_file_path (url_path) VALUES
                                             ('http://192.168.0.1:8080/upload/28'),
                                             ('http://192.168.0.1:8080/upload/29');
 
+INSERT INTO post_file (name, url, mime_type, path, state, re_name, post_id,extend_file_path_id)
+VALUES
+    ('post1.jpg', '/img/community/post1.jpg', 'image/jpeg', '/upload/post1.jpg', 'ACTIVE', 'p1.jpg', 1,1),
+    ('post2.jpg', '/img/community/post2.jpg', 'image/jpeg', '/upload/post2.jpg', 'ACTIVE', 'p2.jpg', 2,2),
+    ('post3.jpg', '/img/community/post3.jpg', 'image/jpeg', '/upload/post3.jpg', 'ACTIVE', 'p3.jpg', 3,3),
+    ('post4.jpg', '/img/community/post4.jpg', 'image/jpeg', '/upload/post4.jpg', 'ACTIVE', 'p4.jpg', 4,4),
+    ('post5.jpg', '/img/community/post5.jpg', 'image/jpeg', '/upload/post5.jpg', 'ACTIVE', 'p5.jpg', 5,5),
+    ('post6.jpg', '/img/community/post6.jpg', 'image/jpeg', '/upload/post6.jpg', 'ACTIVE', 'p6.jpg', 6,6),
+    ('post7.jpg', '/img/community/post7.jpg', 'image/jpeg', '/upload/post7.jpg', 'ACTIVE', 'p7.jpg', 7,7),
+    ('post8.jpg', '/img/community/post8.jpg', 'image/jpeg', '/upload/post8.jpg', 'ACTIVE', 'p8.jpg', 8,8),
+    ('post9.jpg', '/img/community/post9.jpg', 'image/jpeg', '/upload/post9.jpg', 'ACTIVE', 'p9.jpg', 9,9),
+    ('post10.jpg', '/img/community/post10.jpg', 'image/jpeg', '/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,10);
 
 
 INSERT INTO upload_file (
