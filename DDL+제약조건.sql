@@ -636,7 +636,7 @@ CREATE TABLE IF NOT EXISTS food_allergy (
     ) ENGINE=INNODB;
 
     
-create TABLE IF NOT EXISTS table base_of_point(
+create TABLE IF NOT EXISTS base_of_point(
 	id int not null auto_increment,
 	description varchar(2000),
 	point int not null,
