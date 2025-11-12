@@ -229,6 +229,7 @@ CREATE TABLE IF NOT EXISTS post_comment (
     post_id   INT   NOT NULL,
     member_id   BIGINT   NOT NULL,
     member_parent_comment_id   INT   NULL,
+    visibility   TINYINT(1)   NULL   DEFAULT 0,
     PRIMARY KEY (id)
     ) ENGINE=InnoDB;
 
