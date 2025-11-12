@@ -29,12 +29,12 @@ VALUES
     ('휴먼상태'),
     ('블랙리스트');
 
-INSERT INTO member_rank(
-    NAME , badge_count )
-VALUES
-    ('새싹이',0),
-    ('튼튼이',20),
-    ('헬린이',50);
+INSERT INTO member_rank (id, name, badge_count) VALUES
+                                                    (1, '스타터', 0),
+                                                    (2, '챌린저', 21),
+                                                    (3, '파이터', 51),
+                                                    (4, '프로', 151),
+                                                    (5, '챔피언', 365);
 
 
 INSERT INTO member (
@@ -62,7 +62,6 @@ VALUES
     ('유성룡', '징비록', 'yuseongryong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1818-1919', 'M', '1542-01-01', 173.50, 67.00, 1, 77, NOW(), 0, NULL, NULL, 1, 1),
     ('이방원', '태종', 'leebangwon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1919-2020', 'M', '1367-06-13', 175.00, 72.00, 1, 81, NOW(), 0, NULL, NULL, 1, 1),
     ('신채호', '단재', 'shinchaeho@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-2020-2121', 'M', '1880-12-08', 174.00, 70.00, 1, 79, NOW(), 0, NULL, NULL, 1, 1);
-
 
 
 INSERT INTO post (title, content, member_id, tag_id) VALUES
@@ -133,23 +132,8 @@ INSERT INTO comment_like (post_comment_id, member_id) VALUES
                                                           (9, 3);
 
 
-INSERT INTO post_file (name, url, mime_type, path, state, re_name, post_id,extend_file_path_id)
-VALUES
-    ('post1.jpg', '/upload/post1.jpg', 'image/jpeg', '/var/upload/post1.jpg', 'ACTIVE', 'p1.jpg', 1,5),
-    ('post2.jpg', '/upload/post2.jpg', 'image/jpeg', '/var/upload/post2.jpg', 'ACTIVE', 'p2.jpg', 2,6),
-    ('post3.jpg', '/upload/post3.jpg', 'image/jpeg', '/var/upload/post3.jpg', 'ACTIVE', 'p3.jpg', 3,7),
-    ('post4.jpg', '/upload/post4.jpg', 'image/jpeg', '/var/upload/post4.jpg', 'ACTIVE', 'p4.jpg', 4,8),
-    ('post5.jpg', '/upload/post5.jpg', 'image/jpeg', '/var/upload/post5.jpg', 'ACTIVE', 'p5.jpg', 5,9),
-    ('post6.jpg', '/upload/post6.jpg', 'image/jpeg', '/var/upload/post6.jpg', 'ACTIVE', 'p6.jpg', 6,11),
-    ('post7.jpg', '/upload/post7.jpg', 'image/jpeg', '/var/upload/post7.jpg', 'ACTIVE', 'p7.jpg', 7,12),
-    ('post8.jpg', '/upload/post8.jpg', 'image/jpeg', '/var/upload/post8.jpg', 'ACTIVE', 'p8.jpg', 8,16),
-    ('post9.jpg', '/upload/post9.jpg', 'image/jpeg', '/var/upload/post9.jpg', 'ACTIVE', 'p9.jpg', 9,17),
-    ('post10.jpg', '/upload/post10.jpg', 'image/jpeg', '/var/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,18);
-
-
-
 INSERT INTO extend_file_path (url_path) VALUES
-                                            ('http://192.168.0.1:8080/upload/1'),
+                                            ('http://localhost:8081/uploads/'),
                                             ('http://192.168.0.1:8080/upload/2'),
                                             ('http://192.168.0.1:8080/upload/3'),
                                             ('http://192.168.0.1:8080/upload/4'),
@@ -179,6 +163,18 @@ INSERT INTO extend_file_path (url_path) VALUES
                                             ('http://192.168.0.1:8080/upload/28'),
                                             ('http://192.168.0.1:8080/upload/29');
 
+INSERT INTO post_file (name, url, mime_type, path, state, re_name, post_id,extend_file_path_id)
+VALUES
+    ('post1.jpg', '/img/community/post1.jpg', 'image/jpeg', '/upload/post1.jpg', 'ACTIVE', 'p1.jpg', 1,1),
+    ('post2.jpg', '/img/community/post2.jpg', 'image/jpeg', '/upload/post2.jpg', 'ACTIVE', 'p2.jpg', 2,2),
+    ('post3.jpg', '/img/community/post3.jpg', 'image/jpeg', '/upload/post3.jpg', 'ACTIVE', 'p3.jpg', 3,3),
+    ('post4.jpg', '/img/community/post4.jpg', 'image/jpeg', '/upload/post4.jpg', 'ACTIVE', 'p4.jpg', 4,4),
+    ('post5.jpg', '/img/community/post5.jpg', 'image/jpeg', '/upload/post5.jpg', 'ACTIVE', 'p5.jpg', 5,5),
+    ('post6.jpg', '/img/community/post6.jpg', 'image/jpeg', '/upload/post6.jpg', 'ACTIVE', 'p6.jpg', 6,6),
+    ('post7.jpg', '/img/community/post7.jpg', 'image/jpeg', '/upload/post7.jpg', 'ACTIVE', 'p7.jpg', 7,7),
+    ('post8.jpg', '/img/community/post8.jpg', 'image/jpeg', '/upload/post8.jpg', 'ACTIVE', 'p8.jpg', 8,8),
+    ('post9.jpg', '/img/community/post9.jpg', 'image/jpeg', '/upload/post9.jpg', 'ACTIVE', 'p9.jpg', 9,9),
+    ('post10.jpg', '/img/community/post10.jpg', 'image/jpeg', '/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,10);
 
 
 INSERT INTO upload_file (
@@ -196,30 +192,30 @@ VALUES
 
 
 INSERT INTO goal (
-    type, target_value, kcal_per_day, protein_g, fat_g, carbs_g,
+    goal_type, target_value,
     start_date, end_date, created_at, member_id
 )
 VALUES
-    ('WEIGHT', 70.50, NULL, NULL, NULL, NULL, '2025-11-01 00:00:00', '2026-01-01 00:00:00', NOW(), 1),
-    ('CALORIE', NULL, 2200, 130, 70, 260, '2025-11-02 00:00:00', '2026-01-15 00:00:00', NOW(), 2),
-    ('MACRO', NULL, 2000, 120, 60, 250, '2025-11-03 00:00:00', '2026-02-01 00:00:00', NOW(), 3),
-    ('WEIGHT', 65.20, NULL, NULL, NULL, NULL, '2025-11-04 00:00:00', '2026-01-31 00:00:00', NOW(), 4),
-    ('CALORIE', NULL, 1800, 100, 50, 200, '2025-11-05 00:00:00', '2026-02-15 00:00:00', NOW(), 5),
-    ('MACRO', NULL, 2100, 140, 60, 270, '2025-11-06 00:00:00', '2026-01-10 00:00:00', NOW(), 6),
-    ('WEIGHT', 75.00, NULL, NULL, NULL, NULL, '2025-11-07 00:00:00', '2026-02-20 00:00:00', NOW(), 7),
-    ('CALORIE', NULL, 2500, 160, 80, 300, '2025-11-08 00:00:00', '2026-03-01 00:00:00', NOW(), 8),
-    ('MACRO', NULL, 1900, 110, 50, 220, '2025-11-09 00:00:00', '2026-03-10 00:00:00', NOW(), 9),
-    ('WEIGHT', 68.00, NULL, NULL, NULL, NULL, '2025-11-10 00:00:00', '2026-02-01 00:00:00', NOW(), 10),
-    ('CALORIE', NULL, 2000, 120, 60, 250, '2025-11-11 00:00:00', '2026-02-20 00:00:00', NOW(), 11),
-    ('MACRO', NULL, 2300, 150, 70, 280, '2025-11-12 00:00:00', '2026-03-15 00:00:00', NOW(), 12),
-    ('WEIGHT', 72.30, NULL, NULL, NULL, NULL, '2025-11-13 00:00:00', '2026-02-28 00:00:00', NOW(), 13),
-    ('CALORIE', NULL, 1900, 110, 50, 220, '2025-11-14 00:00:00', '2026-03-20 00:00:00', NOW(), 14),
-    ('MACRO', NULL, 2100, 130, 60, 260, '2025-11-15 00:00:00', '2026-03-25 00:00:00', NOW(), 15),
-    ('WEIGHT', 63.00, NULL, NULL, NULL, NULL, '2025-11-16 00:00:00', '2026-03-30 00:00:00', NOW(), 16),
-    ('CALORIE', NULL, 2400, 150, 70, 300, '2025-11-17 00:00:00', '2026-04-01 00:00:00', NOW(), 17),
-    ('MACRO', NULL, 2000, 125, 55, 250, '2025-11-18 00:00:00', '2026-04-10 00:00:00', NOW(), 18),
-    ('WEIGHT', 69.50, NULL, NULL, NULL, NULL, '2025-11-19 00:00:00', '2026-04-15 00:00:00', NOW(), 19),
-    ('CALORIE', NULL, 2100, 130, 60, 270, '2025-11-20 00:00:00', '2026-04-20 00:00:00', NOW(), 20);
+    ('LOSS', 70.50, '2025-11-01 00:00:00', '2026-01-01 00:00:00', NOW(), 1),
+    ('MAINTAIN', 2200, '2025-11-02 00:00:00', '2026-01-15 00:00:00', NOW(), 2),
+    ('INCREASE', 2000, '2025-11-03 00:00:00', '2026-02-01 00:00:00', NOW(), 3),
+    ('LOSS', 65.20, '2025-11-04 00:00:00', '2026-01-31 00:00:00', NOW(), 4),
+    ('MAINTAIN', 1800, '2025-11-05 00:00:00', '2026-02-15 00:00:00', NOW(), 5),
+    ('INCREASE', 2100, '2025-11-06 00:00:00', '2026-01-10 00:00:00', NOW(), 6),
+    ('LOSS', 75.00, '2025-11-07 00:00:00', '2026-02-20 00:00:00', NOW(), 7),
+    ('MAINTAIN', 2500, '2025-11-08 00:00:00', '2026-03-01 00:00:00', NOW(), 8),
+    ('INCREASE', 1900, '2025-11-09 00:00:00', '2026-03-10 00:00:00', NOW(), 9),
+    ('LOSS', 68.00, '2025-11-10 00:00:00', '2026-02-01 00:00:00', NOW(), 10),
+    ('MAINTAIN', 2000, '2025-11-11 00:00:00', '2026-02-20 00:00:00', NOW(), 11),
+    ('INCREASE', 2300, '2025-11-12 00:00:00', '2026-03-15 00:00:00', NOW(), 12),
+    ('LOSS', 72.30, '2025-11-13 00:00:00', '2026-02-28 00:00:00', NOW(), 13),
+    ('MAINTAIN', 1900, '2025-11-14 00:00:00', '2026-03-20 00:00:00', NOW(), 14),
+    ('INCREASE', 2100, '2025-11-15 00:00:00', '2026-03-25 00:00:00', NOW(), 15),
+    ('LOSS', 63.00, '2025-11-16 00:00:00', '2026-03-30 00:00:00', NOW(), 16),
+    ('MAINTAIN', 2400, '2025-11-17 00:00:00', '2026-04-01 00:00:00', NOW(), 17),
+    ('INCREASE', 2000, '2025-11-18 00:00:00', '2026-04-10 00:00:00', NOW(), 18),
+    ('LOSS', 69.50, '2025-11-19 00:00:00', '2026-04-15 00:00:00', NOW(), 19),
+    ('MAINTAIN', 2100, '2025-11-20 00:00:00', '2026-04-20 00:00:00', NOW(), 20);
 
 -- 신고 구분 코드
 INSERT INTO report_base (title, count, day_of_ban) VALUES
@@ -576,6 +572,7 @@ VALUES
     ('2025-11-08', 1, 1, 1, 1, 1, 4),
     ('2025-11-09', 0, 0, 1, 0, 0, 4),
     ('2025-11-10', 1, 1, 1, 1, 1, 4);
+
 /* 6) 빙고 보드 */
 INSERT INTO bingo_board (id, title, size, start_date, end_date, created_at, member_id) VALUES
     (1, '11월 건강 빙고', 5, '2025-11-01', '2025-11-30', NOW(), 1);
@@ -622,11 +619,11 @@ VALUES
 
 INSERT INTO gacha_quantity (id, count)
 VALUES
-    (1, 5),   -- 다이아몬드 상자
-    (2, 20),  -- 골드 쿠폰
-    (3, 100), -- 1000 포인트
-    (4, 300), -- 100 포인트
-    (5, 9999); -- 꽝
+    (1, 1),   -- 다이아몬드 상자
+    (2, 2),  -- 골드 쿠폰
+    (3, 15), -- 1000 포인트
+    (4, 32), -- 100 포인트
+    (5, 50); -- 꽝
 
 INSERT INTO gacha_board_seed (gacha_event_id, gacha_prize_id, count_per_board)
 VALUES
@@ -746,18 +743,29 @@ VALUES
 INSERT INTO gacha_reward_grant (gacha_shared_board_id, grant_status)
 VALUES (10, 'QUEUED');
 
-/* 14) 포인트 내역 */
-INSERT INTO point (point_id, point, distinction, member_id, diary_id, calender_id, gacha_event_id, bingo_board_id) VALUES
-                                                                                                                       (1, 100, 'EARN', 1, 1, 1, 1, 1),
-                                                                                                                       (2,  50,  'USE', 1, 1, 1, 1, 1);
 -- ----------------------------
 -- 1. allergy (알러지 마스터 목록) 더미 데이터
 -- (ID가 1, 2, 3으로 자동 생성됨)
 -- ----------------------------
 INSERT INTO allergy (name) VALUES
-                               ('땅콩'),
-                               ('우유'),
-                               ('갑각류');
+                               ('난류(가금류)'),
+                                ('우유'),
+                                ('메밀'),
+                                ('땅콩'),
+                                ('대두'),
+                                ('밀'),
+                                ('고등어'),
+                                ('게'),
+                                ('새우'),
+                                ('돼지고기'),
+                                ('복숭아'),
+                                ('토마토'),
+                                ('아황산염'),
+                                ('호두'),
+                                ('닭고기'),
+                                ('소고기'),
+                                ('오징어'),
+                                ('조개류(굴, 전복, 홍합 포함)');
 
 -- ----------------------------
 -- 2. member_allergy (회원의 알러지 정보) 더미 데이터
@@ -774,8 +782,6 @@ INSERT INTO food_allergy (meal_id, allergy_id) VALUES
                                                    (1, 1), -- 1번 식사: '땅콩' 포함
                                                    (2, 2), -- 2번 식사: '우유' 포함
                                                    (3, 3); -- 3번 식사: '갑각류' 포함
-
-
 
 
 insert into base_of_point

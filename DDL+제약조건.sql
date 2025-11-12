@@ -1,6 +1,5 @@
--- 🔥 외래키 검사 비활성화
 SET FOREIGN_KEY_CHECKS = 0;
-
+DROP TABLE IF EXISTS point;
 DROP TABLE IF EXISTS comment_like;
 DROP TABLE IF EXISTS post_comment;
 DROP TABLE IF EXISTS post_like;
@@ -36,6 +35,7 @@ DROP TABLE IF EXISTS `qna`;
 DROP TABLE IF EXISTS `calendar`;
 DROP TABLE IF EXISTS `diary_file`;
 DROP TABLE IF EXISTS `qna_comment`;
+
 DROP TABLE IF EXISTS `gacha_reward_grant`;
 DROP TABLE IF EXISTS `gacha_draw_log`;
 DROP TABLE IF EXISTS `gacha_shared_board`;
@@ -49,41 +49,40 @@ DROP TABLE IF EXISTS bingo_fileupload;
 DROP TABLE IF EXISTS bingo_cell;
 DROP TABLE IF EXISTS bingo_board;
 
-DROP TABLE IF EXISTS point;
+DROP TABLE IF EXISTS `point_balance`;
+DROP TABLE IF EXISTS `point_log`;
 
 DROP TABLE IF EXISTS member_allergy;
 DROP TABLE IF EXISTS allergy;
 DROP TABLE IF EXISTS food_allergy;
+
+DROP TABLE IF EXISTS base_of_point;
 
 
 -- ------------- DDL -------------- --
 CREATE TABLE IF NOT EXISTS upload_file (
                                            id   bigint   NOT NULL auto_increment,
                                            mime_type   VARCHAR(255)   not NULL,
-    file_path   VARCHAR(255)   NOT NULL,
-    created_at   DATETIME   NULL default now(),
-    State   VARCHAR(255)   NULL,
-    original_file_name   VARCHAR(255)   NULL,
-    re_file_name   VARCHAR(255)   NULL,
-    member_id   bigint   NOT NULL,
-    extend_file_path_id   BIGINT   NOT NULL,
-    constraint pk_upload_file_id primary key(id)
-    ) ENGINE=InnoDB;
+                                           file_path   VARCHAR(255)   NOT NULL,
+                                           created_at   DATETIME   NULL default now(),
+                                           State   VARCHAR(255)   NULL,
+                                           original_file_name   VARCHAR(255)   NULL,
+                                           re_file_name   VARCHAR(255)   NULL,
+                                           member_id   bigint   NOT NULL,
+                                           extend_file_path_id   BIGINT   NOT NULL,
+                                           constraint pk_upload_file_id primary key(id)
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS goal (
                                     id   bigint   NOT NULL auto_increment,
-                                    type   ENUM('WEIGHT','CALORIE','MACRO') NOT NULL,
-    target_value   DECIMAL(10,2)   NULL,
-    kcal_per_day   INT   NULL,
-    protein_g   INT   NULL,
-    fat_g   INT   NULL,
-    carbs_g   INT   NULL,
-    start_date   DATETIME   NOT NULL,
-    end_date   DATETIME   NULL,
-    created_at   DATETIME   NOT NULL default now(),
-    member_id   bigint   NOT NULL,
-    constraint pk_goal_id primary key(id)
-    ) ENGINE=InnoDB;
+                                    goal_type   ENUM('LOSS','MAINTAIN','INCREASE') NOT NULL,
+                                    target_value   DECIMAL(10,2)   NOT NULL,
+                                    start_date   DATETIME   NOT NULL,
+                                    end_date   DATETIME   NOT NULL,
+                                    created_at   DATETIME   NOT NULL default now(),
+                                    member_id   bigint   NOT NULL,
+                                    constraint pk_goal_id primary key(id)
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS ban (
                                    id   bigint   NOT NULL auto_increment,
@@ -93,110 +92,110 @@ CREATE TABLE IF NOT EXISTS ban (
                                    member_id   bigint   NOT NULL,
                                    report_no   bigint   NOT NULL,
                                    constraint pk_ban_id primary key(id)
-    ) ENGINE=InnoDB;
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS member_status (
                                              id   bigint   NOT NULL auto_increment,
                                              status   varchar(255)   NULL,
-    constraint pk_member_status_id primary key(id)
-    ) ENGINE=InnoDB;
+                                             constraint pk_member_status_id primary key(id)
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS member (
                                       id   bigint   NOT NULL auto_increment,
                                       name   VARCHAR(255)   NULL,
-    nickname   VARCHAR(255)   NULL,
-    email   VARCHAR(255)   NOT NULL,
-    pw   VARCHAR(255)   NOT NULL,
-    phone   VARCHAR(255)   NULL,
-    gender   varchar(1)   NULL,
-    birth   VARCHAR(255)   NULL,
-    height   DECIMAL(5,2)   NOT NULL DEFAULT 0,
-    weight   DECIMAL(5,2)   NOT NULL DEFAULT 0,
-    body_metric   INT   NULL   COMMENT '회원 가입 할때 defualt로 계산 값 입력',
-    point   INT   NULL,
-    created_at   DATETIME   NOT NULL default now(),
-    login_failure_count   int   NULL default 0,
-    login_lock_until   datetime   NULL   COMMENT '연속5회 비밀번호 오류시 15분 접속 제한',
-    quit_date   datetime   NULL,
-    status   bigint   NOT NULL   DEFAULT 1,
-    level   bigint   NOT NULL default 1,
-    ban_cnt int null default 0,
-    constraint pk_member_id primary key(id),
-    constraint ck_member_gender check(gender in('M','F'))
-    ) ENGINE=InnoDB;
+                                      nickname   VARCHAR(255)   NULL,
+                                      email   VARCHAR(255)   NOT NULL,
+                                      pw   VARCHAR(255)   NOT NULL,
+                                      phone   VARCHAR(255)   NULL,
+                                      gender   varchar(1)   NULL,
+                                      birth   VARCHAR(255)   NULL,
+                                      height   DECIMAL(5,2)   NOT NULL DEFAULT 0,
+                                      weight   DECIMAL(5,2)   NOT NULL DEFAULT 0,
+                                      body_metric   INT   NULL   COMMENT '회원 가입 할때 defualt로 계산 값 입력',
+                                      point   INT   NULL,
+                                      created_at   DATETIME   NOT NULL default now(),
+                                      login_failure_count   int   NULL default 0,
+                                      login_lock_until   datetime   NULL   COMMENT '연속5회 비밀번호 오류시 15분 접속 제한',
+                                      quit_date   datetime   NULL,
+                                      status   bigint   NOT NULL   DEFAULT 1,
+                                      level   bigint   NOT NULL default 1,
+                                      ban_cnt int null default 0,
+                                      constraint pk_member_id primary key(id),
+                                      constraint ck_member_gender check(gender in('M','F'))
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS member_rank (
                                            id   bigint   NOT NULL auto_increment,
                                            name   varchar(255)   NULL,
-    badge_count   int   NULL   COMMENT '뱃지 갯수',
-    constraint pk_member_rank_id primary key(id)
-    ) ENGINE=InnoDB;
+                                           badge_count   int   NULL   COMMENT '뱃지 갯수',
+                                           constraint pk_member_rank_id primary key(id)
+) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS member_authority (
                                                 member_id   bigint   NOT NULL ,
                                                 authories_id   bigint   NOT NULL,
                                                 constraint pk_member_authority_member_id_authories_id primary key(member_id,authories_id)
-    ) ENGINE=InnoDB;
+) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS authorites (
                                           id   bigint   NOT NULL auto_increment,
                                           authurity   VARCHAR(255)   NOT NULL,
-    description   varchar(255)   NULL,
-    constraint pk_authorites_id primary key(id)
-    ) ENGINE=InnoDB;
+                                          description   varchar(255)   NULL,
+                                          constraint pk_authorites_id primary key(id)
+) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS login_failure_history (
                                                      id   bigint   NOT NULL auto_increment,
                                                      failure_datetime   datetime   NOT NULL,
                                                      failure_ip   varchar(255)   NULL,
-    failure_reasone   varchar(2000)   NULL,
-    member_id   bigint   NOT NULL,
-    constraint pk_login_failure_history_id primary key(id)
-    ) ENGINE=InnoDB;
+                                                     failure_reasone   varchar(2000)   NULL,
+                                                     member_id   bigint   NOT NULL,
+                                                     constraint pk_login_failure_history_id primary key(id)
+) ENGINE=InnoDB;
 
 
 
 CREATE TABLE IF NOT EXISTS refresh_token (
                                              id   bigint   NOT NULL auto_increment,
                                              token_hash   varchar(128)   NOT NULL,
-    jti   varchar(64)   NULL   COMMENT 'unique 제약조건',
-    issued_at   datetime   NULL default now(),
-    expires_at   datetime   NULL,
-    revoked   tinyint   NULL   DEFAULT 0,
-    revoked_at   datetime   NULL,
-    device_fp   varchar(255)   NULL,
-    ip   varchar(255)   NULL,
-    last_used_at   datetime   NULL default now(),
-    member_id   bigint   NOT NULL,
-    constraint pk_refresh_token_id primary key(id),
-    constraint uk_refresh_token_jti unique(jti)
-    ) ENGINE=InnoDB;
+                                             jti   varchar(64)   NULL   COMMENT 'unique 제약조건',
+                                             issued_at   datetime   NULL default now(),
+                                             expires_at   datetime   NULL,
+                                             revoked   tinyint   NULL   DEFAULT 0,
+                                             revoked_at   datetime   NULL,
+                                             device_fp   varchar(255)   NULL,
+                                             ip   varchar(255)   NULL,
+                                             last_used_at   datetime   NULL default now(),
+                                             member_id   bigint   NOT NULL,
+                                             constraint pk_refresh_token_id primary key(id),
+                                             constraint uk_refresh_token_jti unique(jti)
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS login_history (
                                              id   bigint   NOT NULL auto_increment,
                                              login_date   datetime   NOT NULL default now(),
-    come_in_ip   varchar(255)   NULL,
-    before_path   varchar(255)   NULL,
-    member_id   bigint   NOT NULL,
-    constraint pk_login_history_id primary key(id)
-    ) ENGINE=InnoDB;
+                                             come_in_ip   varchar(255)   NULL,
+                                             before_path   varchar(255)   NULL,
+                                             member_id   bigint   NOT NULL,
+                                             constraint pk_login_history_id primary key(id)
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS extend_file_path (
                                                 id   BIGINT   NOT NULL auto_increment,
                                                 url_path   VARCHAR(255) NULL,
-    constraint pk_extend_file_path_id primary key(id)
-    ) ENGINE=InnoDB;
+                                                constraint pk_extend_file_path_id primary key(id)
+) ENGINE=InnoDB;
 
 
 -- 1) 태그
 CREATE TABLE IF NOT EXISTS tag (
                                    id   INT   NOT NULL      AUTO_INCREMENT   ,
                                    name   VARCHAR(255)   NOT NULL   ,
-    PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+                                   PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 
 -- 2) 게시판 (post)
@@ -210,6 +209,7 @@ CREATE TABLE IF NOT EXISTS post (
     tag_id   INT   NOT NULL,
     PRIMARY KEY (id)
     ) ENGINE=InnoDB;
+
 
 -- 3) 게시판 좋아요 (post_like)
 CREATE TABLE IF NOT EXISTS post_like (
@@ -229,6 +229,7 @@ CREATE TABLE IF NOT EXISTS post_comment (
     post_id   INT   NOT NULL,
     member_id   BIGINT   NOT NULL,
     member_parent_comment_id   INT   NULL,
+    visibility   TINYINT(1)   NULL   DEFAULT 0,
     PRIMARY KEY (id)
     ) ENGINE=InnoDB;
 
@@ -254,7 +255,7 @@ CREATE TABLE IF NOT EXISTS post_file (
     state   VARCHAR(255)   NULL,
     re_name   VARCHAR(255)   NULL,
     post_id   INT   NOT NULL,
-    extend_file_path_id   INT   NOT NULL,
+    extend_file_path_id   BIGINT   NOT NULL,
     PRIMARY KEY (id)
     ) ENGINE=InnoDB;
 
@@ -270,130 +271,130 @@ CREATE TABLE IF NOT EXISTS post_tag (
 CREATE TABLE IF NOT EXISTS food (
                                     id   BIGINT   NOT NULL   AUTO_INCREMENT,
                                     name   VARCHAR(255)   NOT NULL,
-    gram   INTEGER   NOT NULL,
-    kcal   DECIMAL(8,2)   NOT NULL,
-    carbo   DECIMAL(8,2)   NOT NULL,
-    protein   DECIMAL(8,2)   NOT NULL,
-    fat   DECIMAL(8,2)   NOT NULL,
-    sodium   DECIMAL(10,2)   NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+                                    gram   INTEGER   NOT NULL,
+                                    kcal   DECIMAL(8,2)   NOT NULL,
+                                    carbo   DECIMAL(8,2)   NOT NULL,
+                                    protein   DECIMAL(8,2)   NOT NULL,
+                                    fat   DECIMAL(8,2)   NOT NULL,
+                                    sodium   DECIMAL(10,2)   NOT NULL,
+                                    PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS meal (
                                     id   BIGINT   NOT NULL   AUTO_INCREMENT ,
                                     type   ENUM('BREAKFAST','LUNCH','DINNER','SNACK')   NOT NULL,
-    date   DATE   NOT NULL,
-    created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    member_id   BIGINT   NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+                                    date   DATE   NOT NULL,
+                                    created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                    member_id   BIGINT   NOT NULL,
+                                    PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS food_fileupload (
                                                id   INT   NOT NULL   AUTO_INCREMENT ,
                                                meal_id   BIGINT   NOT NULL   ,
                                                name   VARCHAR(255)   NOT NULL,
-    type   VARCHAR(255)   NOT NULL,
-    re_name   VARCHAR(255)   NOT NULL,
-    path   VARCHAR(255)   NOT NULL,
-    create_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    upload_order   INT   NOT NULL,
-    thumb_path   VARCHAR(255)   NOT NULL,
-    extend_file_path_id   BIGINT   NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                               type   VARCHAR(255)   NOT NULL,
+                                               re_name   VARCHAR(255)   NOT NULL,
+                                               path   VARCHAR(255)   NOT NULL,
+                                               create_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                               upload_order   INT   NOT NULL,
+                                               thumb_path   VARCHAR(255)   NOT NULL,
+                                               extend_file_path_id   BIGINT   NOT NULL,
+                                               PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 
 CREATE TABLE IF NOT EXISTS ai_diet (
                                        id   BIGINT   NOT NULL AUTO_INCREMENT   ,
                                        type   ENUM('BREAKFAST','LUNCH','DINNER','SNACK') NOT NULL,
-    total_kcal   DECIMAL(8,2) NOT NULL,
-    kcal   DECIMAL(8,2)   NOT NULL,
-    total_protein   DECIMAL(8,2)   NOT NULL,
-    total_fat   DECIMAL(8,2)   NOT NULL,
-    created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    name   VARCHAR(255)   NOT NULL,
-    member_id   bigint   NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                       total_kcal   DECIMAL(8,2) NOT NULL,
+                                       kcal   DECIMAL(8,2)   NOT NULL,
+                                       total_protein   DECIMAL(8,2)   NOT NULL,
+                                       total_fat   DECIMAL(8,2)   NOT NULL,
+                                       created_at   DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                       name   VARCHAR(255)   NOT NULL,
+                                       member_id   bigint   NOT NULL,
+                                       PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 
 CREATE TABLE IF NOT EXISTS meal_food (
                                          meal_id   BIGINT   NOT NULL,
                                          food_id   BIGINT   NOT NULL,
                                          PRIMARY KEY (meal_id, food_id)
-    ) ENGINE=INNODB;
+) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS report_base (
                                            id INT NOT NULL AUTO_INCREMENT,
                                            title VARCHAR(255) NOT NULL,
-    count INT NOT NULL,
-    day_of_ban INT DEFAULT 0,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                           count INT NOT NULL,
+                                           day_of_ban INT DEFAULT 0,
+                                           PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS report (
                                       id BIGINT NOT NULL AUTO_INCREMENT,
                                       title VARCHAR(255) NOT NULL,
-    contents VARCHAR(255) NOT NULL,
-    yn BOOLEAN NOT NULL,
-    date DATETIME NOT NULL,
-    report_image_url VARCHAR(500),
-    member_id2 BIGINT NOT NULL,
-    post_id INT,
-    comment_id INT,
-    admin_id BIGINT,
-    report_id INT NOT NULL,
-    member_id BIGINT NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                      contents VARCHAR(255) NOT NULL,
+                                      yn BOOLEAN NOT NULL,
+                                      date DATETIME NOT NULL,
+                                      report_image_url VARCHAR(500),
+                                      member_id2 BIGINT NOT NULL,
+                                      post_id INT,
+                                      comment_id INT,
+                                      admin_id BIGINT,
+                                      report_id INT NOT NULL,
+                                      member_id BIGINT NOT NULL,
+                                      PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS report_fileupload (
                                                  id INT NOT NULL AUTO_INCREMENT,
                                                  report_id BIGINT NOT NULL,
                                                  name VARCHAR(255),
-    type VARCHAR(255),
-    re_name VARCHAR(255),
-    path VARCHAR(255),
-    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    thumb_path VARCHAR(255),
-    upload_order INT DEFAULT 1,
-    extend_file_path_id BIGINT,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                                 type VARCHAR(255),
+                                                 re_name VARCHAR(255),
+                                                 path VARCHAR(255),
+                                                 create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                                 thumb_path VARCHAR(255),
+                                                 upload_order INT DEFAULT 1,
+                                                 extend_file_path_id BIGINT,
+                                                 PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS exercise (
                                         id INT NOT NULL AUTO_INCREMENT,
                                         date DATE NOT NULL,
                                         type VARCHAR(100) NOT NULL,
-    category VARCHAR(50),
-    min INT NOT NULL,
-    burned_kcal INT NOT NULL,
-    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    member_id BIGINT NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                        category VARCHAR(50),
+                                        min INT NOT NULL,
+                                        burned_kcal INT NOT NULL,
+                                        create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                        member_id BIGINT NOT NULL,
+                                        PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS exercise_fileupload (
                                                    id INT NOT NULL AUTO_INCREMENT,
                                                    name VARCHAR(255),
-    type VARCHAR(255),
-    re_name VARCHAR(255),
-    path VARCHAR(255),
-    thumb_path VARCHAR(255),
-    upload_order INT DEFAULT 1,
-    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    exercise_id INT NOT NULL,
-    extend_file_path_id BIGINT,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                                   type VARCHAR(255),
+                                                   re_name VARCHAR(255),
+                                                   path VARCHAR(255),
+                                                   thumb_path VARCHAR(255),
+                                                   upload_order INT DEFAULT 1,
+                                                   create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                                   exercise_id INT NOT NULL,
+                                                   extend_file_path_id BIGINT,
+                                                   PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS black_list (
                                           member_id BIGINT NOT NULL,
                                           create_date DATETIME NOT NULL,
                                           reason VARCHAR(2000) NOT NULL,
-    admin_id BIGINT,
-    PRIMARY KEY (member_id)
-    ) ENGINE=INNODB;
+                                          admin_id BIGINT,
+                                          PRIMARY KEY (member_id)
+) ENGINE=INNODB;
 
 /* DIARY 테이블 */
 
@@ -418,7 +419,7 @@ CREATE TABLE `diary_file` (
                               `created_at` DATETIME NOT NULL,
                               `state` VARCHAR(255) NOT NULL,
                               `original_file` VARCHAR(255) NOT NULL,
-                              `rename` INT NOT NULL,
+                              `rename` VARCHAR(255) NOT NULL,
                               `diary_id` INT NOT NULL,
                               `extend_file_path_id` BIGINT NOT NULL,
                               CONSTRAINT `pk_diary_file` PRIMARY KEY (`id`)
@@ -450,7 +451,7 @@ CREATE TABLE `qna_comment` (
 ) ENGINE=InnoDB COMMENT='문의사항 댓글';
 
 
-/* CALENDER 테이블 */
+/* CALENDAR 테이블 */
 
 CREATE TABLE IF NOT EXISTS `calendar` (
                                           `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -603,18 +604,28 @@ CREATE TABLE `gacha_reward_grant` (
                                       PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='경품 지급 처리 로그';
 
-/* POINT (적립/사용 내역) */
-CREATE TABLE `point` (
-                         `point_id` BIGINT NOT NULL AUTO_INCREMENT,
-                         `point` INT NULL,
-                         `distinction` ENUM('EARN','USE') NULL COMMENT '1: 획득(EARN), 2: 사용(USE)',
-                         `member_id` BIGINT NOT NULL,
-                         `diary_id` INT NOT NULL,
-                         `calender_id` BIGINT NOT NULL,
-                         `gacha_event_id` BIGINT NOT NULL,
-                         `bingo_board_id` INT NOT NULL,
-                         CONSTRAINT pk_point_point_id PRIMARY KEY (`point_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+/* POINT_LOG: 포인트 적립/사용/만료/조정 기록 (불변 로그) */
+CREATE TABLE `point_log` (
+                             `point_log_id`    BIGINT NOT NULL AUTO_INCREMENT COMMENT '포인트 로그 PK',
+                             `member_id`       BIGINT NOT NULL COMMENT '회원 ID',
+                             `delta`           INT    NOT NULL COMMENT '변화량(+적립, -사용)',
+                             `distinction`     ENUM('EARN','USE','EXPIRE','ADJUST') NOT NULL COMMENT '구분',
+                             `source_domain`   ENUM('MEMBER','DIARY','CALENDAR','BINGO','GACHA','WORKOUT','FOOD','SYSTEM') NOT NULL COMMENT '출처 도메인',
+                             `source_id`       BIGINT NULL COMMENT '출처 테이블의 PK',
+                             `reason`          VARCHAR(255) NULL COMMENT '사유',
+                             `idempotency_key` VARCHAR(100) NULL COMMENT '멱등키(중복 방지)',
+                             `created_at`      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '발생 시각',
+                             PRIMARY KEY (`point_log_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='포인트 원장(불변 로그)';
+
+/* POINT_BALANCE: 멤버별 현재 잔액 스냅샷 */
+CREATE TABLE `point_balance` (
+                                 `member_id`  BIGINT   NOT NULL COMMENT '회원 ID',
+                                 `balance`    INT      NOT NULL DEFAULT 0 COMMENT '현재 잔액',
+                                 `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                     ON UPDATE CURRENT_TIMESTAMP COMMENT '마지막 갱신',
+                                 PRIMARY KEY (`member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='포인트 잔액 스냅샷';
 
 
 CREATE TABLE IF NOT EXISTS member_allergy (
@@ -622,20 +633,43 @@ CREATE TABLE IF NOT EXISTS member_allergy (
                                               member_id	BIGINT	NOT NULL,
                                               allergy_id	INT	NOT NULL,
                                               PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS allergy (
                                        id	INT	NOT NULL	AUTO_INCREMENT ,
                                        name	VARCHAR(255)	NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+                                       PRIMARY KEY (id)
+) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS food_allergy (
                                             id	BIGINT	NOT NULL	AUTO_INCREMENT ,
                                             meal_id	BIGINT	NOT NULL,
                                             allergy_id	BIGINT	NOT NULL,
                                             PRIMARY KEY (id)
-    ) ENGINE=INNODB;
+) ENGINE=INNODB;
+
+
+create TABLE IF NOT EXISTS base_of_point(
+                                            id int not null auto_increment,
+                                            description varchar(2000),
+                                            point int not null,
+                                            constraint pk_base_of_point_id primary key(id)
+) ENGINE=INNODB;
+
+CREATE TABLE `point` (
+                         `point_id` BIGINT NOT NULL AUTO_INCREMENT,
+                         `point` INT NULL,
+                         `distinction` ENUM('EARN','USE') NULL COMMENT '1: 획득(EARN), 2: 사용(USE)',
+                         `reason` VARCHAR(100) NULL COMMENT '포인트 발생 이유 (예: 운동 기록, 일기 작성 등)',
+                         `member_id` BIGINT NOT NULL,
+                         `diary_id` INT  NULL,
+                         `calender_id` BIGINT  NULL,
+                         `gacha_event_id` BIGINT  NULL,
+                         `bingo_board_id` INT  NULL,
+                         histoy_time datetime not null default now(),
+                         CONSTRAINT pk_point_point_id PRIMARY KEY (`point_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+
 
 -- ----- 제약조건 ----------
 -- ✅ 외래키 검사 다시 활성화
@@ -644,21 +678,26 @@ CREATE TABLE IF NOT EXISTS food_allergy (
 ALTER TABLE post add CONSTRAINT fk_post_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE post add CONSTRAINT fk_post_tag FOREIGN KEY (tag_id) REFERENCES tag(id);
 
-ALTER TABLE post_like add CONSTRAINT fk_postlike_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_like add CONSTRAINT fk_postlike_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
 ALTER TABLE post_like add CONSTRAINT fk_postlike_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE post_like add CONSTRAINT uq_post_like UNIQUE (post_id, member_id);
 
-ALTER TABLE post_comment add CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_comment add CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
 ALTER TABLE post_comment add CONSTRAINT fk_comment_member FOREIGN KEY (member_id) REFERENCES member(id);
-ALTER TABLE post_comment add CONSTRAINT fk_comment_parent FOREIGN KEY (member_parent_comment_id) REFERENCES post_comment(id);
+ALTER TABLE post_comment add CONSTRAINT fk_comment_parent FOREIGN KEY (member_parent_comment_id) REFERENCES post_comment(id) ON DELETE CASCADE;
 
-ALTER TABLE comment_like add CONSTRAINT fk_cmtlike_comment FOREIGN KEY (post_comment_id) REFERENCES post_comment(id);
+ALTER TABLE comment_like add CONSTRAINT fk_cmtlike_comment FOREIGN KEY (post_comment_id) REFERENCES post_comment(id) ON DELETE CASCADE;
 ALTER TABLE comment_like add CONSTRAINT fk_cmtlike_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE comment_like add CONSTRAINT uq_comment_like UNIQUE (post_comment_id, member_id);
 
-ALTER TABLE post_file add CONSTRAINT fk_postfile_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_file add CONSTRAINT fk_postfile_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
+ALTER TABLE post_file
+    ADD CONSTRAINT fk_postfile_extend_path
+        FOREIGN KEY (extend_file_path_id)
+            REFERENCES extend_file_path(id)
+            ON DELETE CASCADE;
 
-ALTER TABLE post_tag add CONSTRAINT fk_posttag_post FOREIGN KEY (post_id) REFERENCES post(id);
+ALTER TABLE post_tag add CONSTRAINT fk_posttag_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;;
 
 alter table upload_file add constraint fk_upload_file_member  foreign key(member_id)  references member(id);
 alter table upload_file add constraint fk_upload_file_extend_file_path  foreign key(extend_file_path_id)  references extend_file_path(id);
@@ -741,6 +780,10 @@ ALTER TABLE `bingo_board`
         FOREIGN KEY (`member_id`) REFERENCES `member`(`id`)
             ON DELETE RESTRICT ON UPDATE CASCADE;
 
+ALTER TABLE bingo_board
+    ADD CONSTRAINT uk_bingo_board_member_month UNIQUE (member_id, start_date);
+
+
 /* bingo_fileupload → bingo_cell (원래 보드가 아니라 ‘칸’을 참조해야 자연스러움) */
 ALTER TABLE `bingo_fileupload`
     ADD CONSTRAINT `fk_bingo_fileupload_bingo_cell_id`
@@ -809,31 +852,28 @@ ALTER TABLE `gacha_reward_grant`
         FOREIGN KEY (`gacha_shared_board_id`) REFERENCES `gacha_shared_board`(`id`)
             ON DELETE CASCADE ON UPDATE CASCADE;
 
-/* point → member / diary / calender (각각 고유 이름) */
-ALTER TABLE `point`
-    ADD CONSTRAINT `fk_point_member_id`
+/* 멤버 FK: 로그는 역사이므로 멤버 삭제를 쉽게 막기 위해 RESTRICT 권장 */
+ALTER TABLE `point_log`
+    ADD CONSTRAINT `fk_point_log_member`
         FOREIGN KEY (`member_id`) REFERENCES `member`(`id`)
             ON DELETE RESTRICT ON UPDATE CASCADE;
 
-ALTER TABLE `point`
-    ADD CONSTRAINT `fk_point_diary_id`
-        FOREIGN KEY (`diary_id`) REFERENCES `diary`(`id`)
-            ON DELETE RESTRICT ON UPDATE CASCADE;
+/* 멱등 처리용 Unique (멤버별 동일 멱등키 중복 방지) */
+ALTER TABLE `point_log`
+    ADD CONSTRAINT `uq_point_log_member_idem`
+        UNIQUE (`member_id`, `idempotency_key`);
 
-ALTER TABLE `point`
-    ADD CONSTRAINT `fk_point_calender_id`
-        FOREIGN KEY (`calender_id`) REFERENCES `calendar`(`id`)
-            ON DELETE RESTRICT ON UPDATE CASCADE;
+/* 단골 조회 인덱스(시간순/출처별) */
+CREATE INDEX `idx_point_log_member_time`
+    ON `point_log` (`member_id`, `created_at`);
 
-ALTER TABLE point
-    ADD CONSTRAINT fk_point_gacha_event_id
-        FOREIGN KEY (gacha_event_id) REFERENCES gacha_event(id);
+CREATE INDEX `idx_point_log_source`
+    ON `point_log` (`source_domain`, `source_id`);
 
-ALTER TABLE point
-    ADD CONSTRAINT fk_point_bingo_board_id
-        FOREIGN KEY (bingo_board_id) REFERENCES bingo_board(id);
-
-
+/* (선택) 체크 제약: delta는 0이 아닐 것 */
+ALTER TABLE `point_log`
+    ADD CONSTRAINT `ck_point_log_delta_nonzero`
+        CHECK (`delta` <> 0);
 
 
 
