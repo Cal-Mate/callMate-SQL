@@ -452,20 +452,21 @@ CREATE TABLE `qna_comment` (
 
 /* CALENDER 테이블 */
 
-CREATE TABLE `calendar` (
-                            `id` BIGINT NOT NULL AUTO_INCREMENT,
-                            `cal_day` DATE NOT NULL,
-                            `exercise_status` TINYINT NOT NULL DEFAULT 0,
-                            `meal_status` TINYINT NOT NULL DEFAULT 0,
-                            `diary_status` TINYINT NOT NULL DEFAULT 0,
-                            `badge_yn` TINYINT(1) NOT NULL DEFAULT 0,
-                            `member_id` BIGINT NOT NULL,
-                            CONSTRAINT `pk_calendar` PRIMARY KEY (`id`),
-                            CONSTRAINT `uq_calendar_member_day` UNIQUE (`member_id`, `cal_day`),
-                            CONSTRAINT `chk_exercise_status` CHECK (`exercise_status` IN (0,1)),
-                            CONSTRAINT `chk_meal_status` CHECK (`meal_status` IN (0,1)),
-                            CONSTRAINT `chk_diary_status` CHECK (`diary_status` IN (0,1))
-) ENGINE=InnoDB COMMENT='캘린더';
+CREATE TABLE IF NOT EXISTS `calendar` (
+                                          `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                          `cal_day` DATE NOT NULL,
+                                          `badge_count` INT DEFAULT 0,
+                                          `exercise_status` TINYINT(1) NOT NULL DEFAULT 0,
+                                          `meal_status` TINYINT(1) NOT NULL DEFAULT 0,
+                                          `diary_status` TINYINT(1) NOT NULL DEFAULT 0,
+                                          `badge_yn` TINYINT(1) NOT NULL DEFAULT 0,
+                                          `member_id` BIGINT NOT NULL,
+                                          CONSTRAINT `pk_calendar` PRIMARY KEY (`id`),
+                                          CONSTRAINT `uq_calendar_member_day` UNIQUE (`member_id`, `cal_day`),
+                                          CONSTRAINT `chk_exercise_status` CHECK (`exercise_status` IN (0,1)),
+                                          CONSTRAINT `chk_meal_status` CHECK (`meal_status` IN (0,1)),
+                                          CONSTRAINT `chk_diary_status` CHECK (`diary_status` IN (0,1))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='캘린더';
 
 /* BINGO_BOARD */
 CREATE TABLE `bingo_board` (
@@ -638,7 +639,7 @@ CREATE TABLE IF NOT EXISTS food_allergy (
 
 -- ----- 제약조건 ----------
 -- ✅ 외래키 검사 다시 활성화
-SET FOREIGN_KEY_CHECKS = 1;
+# SET FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE post add CONSTRAINT fk_post_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE post add CONSTRAINT fk_post_tag FOREIGN KEY (tag_id) REFERENCES tag(id);
@@ -831,3 +832,8 @@ ALTER TABLE point
 ALTER TABLE point
     ADD CONSTRAINT fk_point_bingo_board_id
         FOREIGN KEY (bingo_board_id) REFERENCES bingo_board(id);
+
+
+
+
+
