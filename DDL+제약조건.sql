@@ -659,6 +659,7 @@ CREATE TABLE `point` (
                          `point_id` BIGINT NOT NULL AUTO_INCREMENT,
                          `point` INT NULL,
                          `distinction` ENUM('EARN','USE') NULL COMMENT '1: 획득(EARN), 2: 사용(USE)',
+                         `reason` VARCHAR(100) NULL COMMENT '포인트 발생 이유 (예: 운동 기록, 일기 작성 등)',
                          `member_id` BIGINT NOT NULL,
                          `diary_id` INT  NULL,
                          `calender_id` BIGINT  NULL,
