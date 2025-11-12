@@ -673,7 +673,7 @@ CREATE TABLE `point` (
 
 -- ----- 제약조건 ----------
 -- ✅ 외래키 검사 다시 활성화
-SET FOREIGN_KEY_CHECKS = 1;
+# SET FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE post add CONSTRAINT fk_post_member FOREIGN KEY (member_id) REFERENCES member(id);
 ALTER TABLE post add CONSTRAINT fk_post_tag FOREIGN KEY (tag_id) REFERENCES tag(id);
@@ -876,15 +876,4 @@ ALTER TABLE `point_log`
         CHECK (`delta` <> 0);
 
 
-/* ========== POINT_BALANCE 제약 & 인덱스 ========== */
 
-/* 멤버 FK: 스냅샷은 멤버와 생명주기를 같이 가도록 CASCADE 권장 */
-ALTER TABLE `point_balance`
-    ADD CONSTRAINT `fk_point_balance_member`
-        FOREIGN KEY (`member_id`) REFERENCES `member`(`id`)
-            ON DELETE CASCADE ON UPDATE CASCADE;
-
-/* (선택) 잔액 음수 방지 */
-ALTER TABLE `point_balance`
-    ADD CONSTRAINT `ck_point_balance_nonnegative`
-        CHECK (`balance` >= 0);
