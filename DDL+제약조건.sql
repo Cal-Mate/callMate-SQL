@@ -44,6 +44,7 @@ DROP TABLE IF EXISTS `gacha_quantity`;
 DROP TABLE IF EXISTS `gacha_prize`;
 DROP TABLE IF EXISTS `gacha_event`;
 DROP TABLE IF EXISTS `gacha_reset`;
+DROP TABLE IF EXISTS `gacha_prize_inventory`;
 
 DROP TABLE IF EXISTS bingo_fileupload;
 DROP TABLE IF EXISTS bingo_cell;
@@ -604,6 +605,18 @@ CREATE TABLE `gacha_reward_grant` (
                                       PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='경품 지급 처리 로그';
 
+/* gacha_prize_inventory */
+CREATE TABLE `gacha_prize_inventory` (
+                                         `id`         BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                         `event_id`   BIGINT       NOT NULL,
+                                         `prize_tier` VARCHAR(50)  NOT NULL,
+                                         `status`     ENUM('READY','USED') NOT NULL DEFAULT 'READY',
+                                         `used_by`    BIGINT       NULL,
+                                         `used_at`    DATETIME     NULL,
+                                         `created_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='경품 인벤토리(READY→USED 관리)';
+
 /* POINT_LOG: 포인트 적립/사용/만료/조정 기록 (불변 로그) */
 CREATE TABLE `point_log` (
                              `point_log_id`    BIGINT NOT NULL AUTO_INCREMENT COMMENT '포인트 로그 PK',
@@ -851,6 +864,17 @@ ALTER TABLE `gacha_reward_grant`
     ADD CONSTRAINT `fk_reward_shared_board`
         FOREIGN KEY (`gacha_shared_board_id`) REFERENCES `gacha_shared_board`(`id`)
             ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `gacha_prize_inventory`
+    ADD CONSTRAINT `fk_inventory_event`
+        FOREIGN KEY (`event_id`) REFERENCES `gacha_event`(`id`)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    ADD CONSTRAINT `fk_inventory_member`
+        FOREIGN KEY (`used_by`) REFERENCES `member`(`id`)
+            ON UPDATE CASCADE ON DELETE SET NULL;
+
+CREATE INDEX `idx_inventory_event_status`
+    ON `gacha_prize_inventory` (`event_id`, `status`);
 
 /* 멤버 FK: 로그는 역사이므로 멤버 삭제를 쉽게 막기 위해 RESTRICT 권장 */
 ALTER TABLE `point_log`
