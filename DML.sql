@@ -255,11 +255,11 @@ INSERT INTO upload_file (
     original_file_name, re_file_name, member_id, extend_file_path_id
 )
 VALUES
-    ('image/jpeg', '/img/profile1.jpg', '2025-11-01 10:15:23', 'ACTIVE', 'profile1.jpg', 'f1a2b3c4d5.jpg', 1, 10),
-    ('image/png', '/img/mountain2.png', '2025-11-02 14:12:59', 'ACTIVE', 'mountain2.png', 'k2l3m4n5o6.png', 4, 14),
-    ('application/pdf', '/img/report.pdf', '2025-11-02 16:44:03', 'INACTIVE', 'report.pdf', 'r5t6y7u8i9.pdf', 5, 15),
-    ('image/jpeg', '/img/avatar1.jpg', '2025-11-03 08:01:44', 'ACTIVE', 'avatar1.jpg', 'q1w2e3r4t5.jpg', 2, 16),
-    ('image/png', '/img/avatar2.png', '2025-11-03 11:27:18', 'ACTIVE', 'avatar2.png', 'w2e3r4t5y6.png', 3, 17);
+    ('image/jpeg', '/img/profile', '2025-11-01 10:15:23', 'ACTIVE', 'profile1.jpg', 'f1a2b3c4d5.jpg', 1, 10),
+    ('image/png', '/img/profile', '2025-11-02 14:12:59', 'ACTIVE', 'mountain2.png', 'k2l3m4n5o6.png', 4, 14),
+    ('application/pdf', '/img/profile', '2025-11-02 16:44:03', 'INACTIVE', 'report.pdf', 'r5t6y7u8i9.pdf', 5, 15),
+    ('image/jpeg', '/img/profile', '2025-11-03 08:01:44', 'ACTIVE', 'avatar1.jpg', 'q1w2e3r4t5.jpg', 2, 16),
+    ('image/png', '/img/profile', '2025-11-03 11:27:18', 'ACTIVE', 'avatar2.png', 'w2e3r4t5y6.png', 3, 17);
 
 
 
