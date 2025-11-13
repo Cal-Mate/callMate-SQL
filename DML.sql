@@ -44,8 +44,8 @@ INSERT INTO member (
 VALUES
     ('세종대왕', '훈민정음', 'sejong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1111-1111', 'M', '1397-05-15', 175.00, 70.50, 1, 95, NOW(), 0, NULL, NULL, 1, 1),
     ('이순신', '충무공', 'leesoonshin@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-2222-2222', 'M', '1545-04-28', 178.20, 75.30, 1, 92, NOW(), 0, NULL, NULL, 1, 1),
-    ('신사임당', '사임당', 'shinsaimdang@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-3333-3333', 'F', '1504-10-29', 160.40, 55.20, 1, 88, NOW(), 0, NULL, NULL, 1, 1),
-    ('장영실', '과학자', 'jangyoungsil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-4444-4444', 'M', '1390-03-20', 170.80, 68.10, 1, 83, NOW(), 0, NULL, NULL, 1, 1),
+    ('신사임당', '사임당', 'shinsaimdang@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-3333-3333', 'F', '1504-10-29', 160.40, 55.20, 1, 100000000, NOW(), 0, NULL, NULL, 1, 1),
+    ('장영실', '과학자', 'jangyoungsil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-4444-4444', 'M', '1390-03-20', 170.80, 68.10, 1, 10000000, NOW(), 0, NULL, NULL, 1, 1),
     ('김유신', '삼국통일', 'kimyushin@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-5555-5555', 'M', '595-10-01', 176.50, 72.00, 1, 90, NOW(), 0, NULL, NULL, 1, 1),
     ('유관순', '만세소녀', 'yugwansoon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-6666-6666', 'F', '1902-12-16', 158.00, 50.30, 1, 85, NOW(), 0, NULL, NULL, 1, 1),
     ('정약용', '목민심서', 'jeongyakyong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-7777-7777', 'M', '1762-08-05', 172.00, 68.50, 1, 80, NOW(), 0, NULL, NULL, 1, 1),

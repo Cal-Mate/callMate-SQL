@@ -49,6 +49,7 @@ DROP TABLE IF EXISTS `gacha_prize_inventory`;
 DROP TABLE IF EXISTS bingo_fileupload;
 DROP TABLE IF EXISTS bingo_cell;
 DROP TABLE IF EXISTS bingo_board;
+DROP TABLE IF EXISTS bingo_line_reward;
 
 DROP TABLE IF EXISTS `point_balance`;
 DROP TABLE IF EXISTS `point_log`;
@@ -203,13 +204,13 @@ CREATE TABLE IF NOT EXISTS tag (
 CREATE TABLE IF NOT EXISTS post (
                                     id   INT   NOT NULL    AUTO_INCREMENT   ,
                                     title   VARCHAR(255)   NOT NULL,
-    content   VARCHAR(255)   NULL,
-    visibility   TINYINT(1)   NULL   DEFAULT 0   ,
-    created_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP ,
-    member_id   bigint   NOT NULL,
-    tag_id   INT   NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+                                    content   VARCHAR(255)   NULL,
+                                    visibility   TINYINT(1)   NULL   DEFAULT 0   ,
+                                    created_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP ,
+                                    member_id   bigint   NOT NULL,
+                                    tag_id   INT   NOT NULL,
+                                    PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 
 -- 3) 게시판 좋아요 (post_like)
@@ -219,20 +220,20 @@ CREATE TABLE IF NOT EXISTS post_like (
                                          member_id   bigint   NOT NULL,
                                          post_id   INT   NOT NULL,
                                          PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+) ENGINE=InnoDB;
 
 
 -- 4) 게시판 댓글 (post_comment) + 대댓글 지원
 CREATE TABLE IF NOT EXISTS post_comment (
                                             id   INT   NOT NULL    AUTO_INCREMENT   ,
                                             content   VARCHAR(255)   NOT NULL,
-    create_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP,
-    post_id   INT   NOT NULL,
-    member_id   BIGINT   NOT NULL,
-    member_parent_comment_id   INT   NULL,
-    visibility   TINYINT(1)   NULL   DEFAULT 0,
-    PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+                                            create_at   DATETIME   NOT NULL   DEFAULT CURRENT_TIMESTAMP,
+                                            post_id   INT   NOT NULL,
+                                            member_id   BIGINT   NOT NULL,
+                                            member_parent_comment_id   INT   NULL,
+                                            visibility   TINYINT(1)   NULL   DEFAULT 0,
+                                            PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 
 
@@ -243,30 +244,30 @@ CREATE TABLE IF NOT EXISTS comment_like (
                                             member_id   bigint   NOT NULL,
                                             post_comment_id   INT   NOT NULL,
                                             PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+) ENGINE=InnoDB;
 
 -- 6) 게시물 파일 업로드 (post_file)
 CREATE TABLE IF NOT EXISTS post_file (
                                          id   INT   NOT NULL    AUTO_INCREMENT   ,
                                          name   VARCHAR(255)   NULL,
-    url   VARCHAR(255)   NOT NULL,
-    mime_type   VARCHAR(255)   NULL,
-    path   VARCHAR(255)   NOT NULL,
-    created_at   DATETIME   NULL   DEFAULT CURRENT_TIMESTAMP ,
-    state   VARCHAR(255)   NULL,
-    re_name   VARCHAR(255)   NULL,
-    post_id   INT   NOT NULL,
-    extend_file_path_id   BIGINT   NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+                                         url   VARCHAR(255)   NOT NULL,
+                                         mime_type   VARCHAR(255)   NULL,
+                                         path   VARCHAR(255)   NOT NULL,
+                                         created_at   DATETIME   NULL   DEFAULT CURRENT_TIMESTAMP ,
+                                         state   VARCHAR(255)   NULL,
+                                         re_name   VARCHAR(255)   NULL,
+                                         post_id   INT   NOT NULL,
+                                         extend_file_path_id   BIGINT   NOT NULL,
+                                         PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS post_tag (
                                         id   INT   NOT NULL    AUTO_INCREMENT   ,
                                         name   VARCHAR(255)   NULL,
-    post_id   INT   NOT NULL,
-    PRIMARY KEY (id)
-    ) ENGINE=InnoDB;
+                                        post_id   INT   NOT NULL,
+                                        PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS food (
@@ -475,6 +476,8 @@ CREATE TABLE `bingo_board` (
                                `id` INT NOT NULL AUTO_INCREMENT,
                                `title` VARCHAR(255) NOT NULL,
                                `size` INT NOT NULL,
+                               `completed_line_count` INT DEFAULT 0 COMMENT '완성된 빙고 라인 수',
+                               completed BOOLEAN DEFAULT FALSE,
                                `start_date` DATE NOT NULL,
                                `end_date` DATE NULL,
                                `created_at` DATETIME NOT NULL,
@@ -494,6 +497,16 @@ CREATE TABLE `bingo_cell` (
                               CONSTRAINT ck_bingo_cell_is_checked CHECK (`is_checked` IN (0,1)),
                               CONSTRAINT pk_bingo_cell_id PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE bingo_line_reward (
+                                   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                   board_id BIGINT NOT NULL,
+                                   line_type ENUM('ROW','COL','DIAG1','DIAG2') NOT NULL,
+                                   line_index INT NULL,
+                                   rewarded_at DATETIME,
+                                   UNIQUE KEY uk_board_line (board_id, line_type, line_index),
+                                   INDEX idx_board_id (board_id)
+);
 
 
 /* BINGO_FILEUPLOAD */
@@ -898,6 +911,3 @@ CREATE INDEX `idx_point_log_source`
 ALTER TABLE `point_log`
     ADD CONSTRAINT `ck_point_log_delta_nonzero`
         CHECK (`delta` <> 0);
-
-
-
