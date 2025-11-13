@@ -42,26 +42,26 @@ INSERT INTO member (
     created_at, login_failure_count, login_lock_until, quit_date, status, level
 )
 VALUES
-    ('세종대왕', '훈민정음', 'sejong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1111-1111', 'M', '1397-05-15', 175.00, 70.50, 1, 95, NOW(), 0, NULL, NULL, 1, 1),
-    ('이순신', '충무공', 'leesoonshin@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-2222-2222', 'M', '1545-04-28', 178.20, 75.30, 1, 92, NOW(), 0, NULL, NULL, 1, 1),
-    ('신사임당', '사임당', 'shinsaimdang@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-3333-3333', 'F', '1504-10-29', 160.40, 55.20, 1, 100000000, NOW(), 0, NULL, NULL, 1, 1),
-    ('장영실', '과학자', 'jangyoungsil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-4444-4444', 'M', '1390-03-20', 170.80, 68.10, 1, 10000000, NOW(), 0, NULL, NULL, 1, 1),
-    ('김유신', '삼국통일', 'kimyushin@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-5555-5555', 'M', '595-10-01', 176.50, 72.00, 1, 90, NOW(), 0, NULL, NULL, 1, 1),
-    ('유관순', '만세소녀', 'yugwansoon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-6666-6666', 'F', '1902-12-16', 158.00, 50.30, 1, 85, NOW(), 0, NULL, NULL, 1, 1),
-    ('정약용', '목민심서', 'jeongyakyong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-7777-7777', 'M', '1762-08-05', 172.00, 68.50, 1, 80, NOW(), 0, NULL, NULL, 1, 1),
-    ('윤봉길', '의사1', 'yunbonggil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-8888-8888', 'M', '1908-06-21', 174.50, 69.20, 1, 87, NOW(), 0, NULL, NULL, 1, 1),
-    ('안중근', '의사', 'ahnjoonggeun@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-9999-9999', 'M', '1879-09-02', 175.20, 71.80, 1, 93, NOW(), 0, NULL, NULL, 1, 1),
-    ('허준', '동의보감', 'heojun@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1010-1010', 'M', '1539-03-05', 168.00, 65.00, 1, 76, NOW(), 0, NULL, NULL, 1, 1),
-    ('이황', '퇴계', 'toegye@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1111-1212', 'M', '1501-11-25', 172.50, 66.80, 1, 70, NOW(), 0, NULL, NULL, 1, 1),
-    ('이이', '율곡', 'yulgok@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1212-1313', 'M', '1536-12-26', 173.00, 67.50, 1, 74, NOW(), 0, NULL, NULL, 1, 1),
-    ('김홍도', '단원', 'kimhongdo@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1313-1414', 'M', '1745-09-10', 171.60, 69.10, 1, 78, NOW(), 0, NULL, NULL, 1, 1),
-    ('심사임당', '화가', 'simsaimdang@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1414-1515', 'F', '1504-10-29', 159.00, 54.00, 1, 82, NOW(), 0, NULL, NULL, 1, 1),
-    ('박지원', '연암', 'parkjiwon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1515-1616', 'M', '1737-02-05', 170.00, 66.00, 1, 68, NOW(), 0, NULL, NULL, 1, 1),
-    ('김구', '백범', 'kimkoo@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1616-1717', 'M', '1876-08-29', 176.00, 73.00, 1, 99, NOW(), 0, NULL, NULL, 1, 1),
-    ('안창호', '도산', 'ahndosan@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1717-1818', 'M', '1878-11-09', 177.00, 74.00, 1, 84, NOW(), 0, NULL, NULL, 1, 1),
-    ('유성룡', '징비록', 'yuseongryong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1818-1919', 'M', '1542-01-01', 173.50, 67.00, 1, 77, NOW(), 0, NULL, NULL, 1, 1),
-    ('이방원', '태종', 'leebangwon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1919-2020', 'M', '1367-06-13', 175.00, 72.00, 1, 81, NOW(), 0, NULL, NULL, 1, 1),
-    ('신채호', '단재', 'shinchaeho@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-2020-2121', 'M', '1880-12-08', 174.00, 70.00, 1, 79, NOW(), 0, NULL, NULL, 1, 1);
+    ('세종대왕', '훈민정음', 'sejong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1111-1111', 'M', '1397-05-15', 175.00, 70.50, 1710, 95, NOW(), 0, NULL, NULL, 1, 1),
+    ('이순신', '충무공', 'leesoonshin@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-2222-2222', 'M', '1545-04-28', 178.20, 75.30, 1785, 92, NOW(), 0, NULL, NULL, 1, 1),
+    ('신사임당', '사임당', 'shinsaimdang@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-3333-3333', 'F', '1504-10-29', 160.40, 55.20, 1510, 100000000, NOW(), 0, NULL, NULL, 1, 1),
+    ('장영실', '과학자', 'jangyoungsil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-4444-4444', 'M', '1390-03-20', 170.80, 68.10, 1660, 10000000, NOW(), 0, NULL, NULL, 1, 1),
+    ('김유신', '삼국통일', 'kimyushin@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-5555-5555', 'M', '595-10-01', 176.50, 72.00, 1740, 90, NOW(), 0, NULL, NULL, 1, 1),
+    ('유관순', '만세소녀', 'yugwansoon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-6666-6666', 'F', '1902-12-16', 158.00, 50.30, 1520, 85, NOW(), 0, NULL, NULL, 1, 1),
+    ('정약용', '목민심서', 'jeongyakyong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-7777-7777', 'M', '1762-08-05', 172.00, 68.50, 1670, 80, NOW(), 0, NULL, NULL, 1, 1),
+    ('윤봉길', '의사', 'yunbonggil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-8888-8888', 'M', '1908-06-21', 174.50, 69.20, 1700, 87, NOW(), 0, NULL, NULL, 1, 1),
+    ('안중근', '의사', 'ahnjoonggeun@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-9999-9999', 'M', '1879-09-02', 175.20, 71.80, 1725, 93, NOW(), 0, NULL, NULL, 1, 1),
+    ('허준', '동의보감', 'heojun@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1010-1010', 'M', '1539-03-05', 168.00, 65.00, 1615, 76, NOW(), 0, NULL, NULL, 1, 1),
+    ('이황', '퇴계', 'toegye@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1111-1212', 'M', '1501-11-25', 172.50, 66.80, 1650, 70, NOW(), 0, NULL, NULL, 1, 1),
+    ('이이', '율곡', 'yulgok@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1212-1313', 'M', '1536-12-26', 173.00, 67.50, 1680, 74, NOW(), 0, NULL, NULL, 1, 1),
+    ('김홍도', '단원', 'kimhongdo@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1313-1414', 'M', '1745-09-10', 171.60, 69.10, 1690, 78, NOW(), 0, NULL, NULL, 1, 1),
+    ('심사임당', '화가', 'simsaimdang@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1414-1515', 'F', '1504-10-29', 159.00, 54.00, 1505, 82, NOW(), 0, NULL, NULL, 1, 1),
+    ('박지원', '연암', 'parkjiwon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1515-1616', 'M', '1737-02-05', 170.00, 66.00, 1630, 68, NOW(), 0, NULL, NULL, 1, 1),
+    ('김구', '백범', 'kimkoo@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1616-1717', 'M', '1876-08-29', 176.00, 73.00, 1750, 99, NOW(), 0, NULL, NULL, 1, 1),
+    ('안창호', '도산', 'ahndosan@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1717-1818', 'M', '1878-11-09', 177.00, 74.00, 1770, 84, NOW(), 0, NULL, NULL, 1, 1),
+    ('유성룡', '징비록', 'yuseongryong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1818-1919', 'M', '1542-01-01', 173.50, 67.00, 1675, 77, NOW(), 0, NULL, NULL, 1, 1),
+    ('이방원', '태종', 'leebangwon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1919-2020', 'M', '1367-06-13', 175.00, 72.00, 1730, 81, NOW(), 0, NULL, NULL, 1, 1),
+    ('신채호', '단재', 'shinchaeho@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-2020-2121', 'M', '1880-12-08', 174.00, 70.00, 1705, 79, NOW(), 0, NULL, NULL, 1, 1);
 
 
 INSERT INTO post (title, content, member_id, tag_id) VALUES
