@@ -49,7 +49,7 @@ VALUES
     ('김유신', '삼국통일', 'kimyushin@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-5555-5555', 'M', '595-10-01', 176.50, 72.00, 1, 90, NOW(), 0, NULL, NULL, 1, 1),
     ('유관순', '만세소녀', 'yugwansoon@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-6666-6666', 'F', '1902-12-16', 158.00, 50.30, 1, 85, NOW(), 0, NULL, NULL, 1, 1),
     ('정약용', '목민심서', 'jeongyakyong@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-7777-7777', 'M', '1762-08-05', 172.00, 68.50, 1, 80, NOW(), 0, NULL, NULL, 1, 1),
-    ('윤봉길', '의사', 'yunbonggil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-8888-8888', 'M', '1908-06-21', 174.50, 69.20, 1, 87, NOW(), 0, NULL, NULL, 1, 1),
+    ('윤봉길', '의사1', 'yunbonggil@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-8888-8888', 'M', '1908-06-21', 174.50, 69.20, 1, 87, NOW(), 0, NULL, NULL, 1, 1),
     ('안중근', '의사', 'ahnjoonggeun@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-9999-9999', 'M', '1879-09-02', 175.20, 71.80, 1, 93, NOW(), 0, NULL, NULL, 1, 1),
     ('허준', '동의보감', 'heojun@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1010-1010', 'M', '1539-03-05', 168.00, 65.00, 1, 76, NOW(), 0, NULL, NULL, 1, 1),
     ('이황', '퇴계', 'toegye@gmail.com', '$2a$10$84PEAn90F4ZAVBfSr9HmY.5afk7ymvgZZf3dZs2A9djCTVq16vbm.', '010-1111-1212', 'M', '1501-11-25', 172.50, 66.80, 1, 70, NOW(), 0, NULL, NULL, 1, 1),
@@ -74,7 +74,17 @@ INSERT INTO post (title, content, member_id, tag_id) VALUES
                                                          ('저녁 식단 공유', '고구마+계란+샐러드', 2, 2),
                                                          ('다이어트 실패함..', '다시 처음부터 간다', 3, 3),
                                                          ('오늘 헬스장 사람 미쳤음', '기다리다가 운동 못함', 4, 1),
-                                                         ('잡담) 날씨 너무 좋음', '뛰기 딱 좋다', 5, 4);
+                                                         ('잡담) 날씨 너무 좋음', '뛰기 딱 좋다', 5, 4),
+                                                         ('오늘 벤치 새로운 PR 성공', '다들 가슴운동 뭐함?', 6, 1),
+                                                         ('다이어트 식단 레시피 공유', '두부 스테이크 레시피 알려드림', 7, 2),
+                                                         ('Before 사진 공개합니다', '많이 부끄럽지만...', 8, 3),
+                                                         ('잡담) 오늘 회사 개힘듦', '퇴사각...', 9, 4),
+                                                         ('등운동 루틴 추천좀', '풀데이 하고 싶은데 조언 부탁', 10, 1),
+                                                         ('점심엔 뭐 먹지?', '다이어트 중인데 메뉴 고민됨', 11, 2),
+                                                         ('체지방 3% 감량 성공!', '드디어 이루었다..', 12, 3),
+                                                         ('이 앱 너무 좋다', '커뮤니티 분위기 최고임', 13, 4),
+                                                         ('런닝화 추천해주세요', '발아프지 않은 걸로...', 14, 1),
+                                                         ('슬럼프 극복하는 법', '다들 어떻게 유지함?', 15, 4);
 
 -- 수정해야 할수도 있음
 INSERT INTO post_tag (name, post_id) VALUES
@@ -99,7 +109,18 @@ INSERT INTO post_like (post_id, member_id) VALUES
                                                (6, 5),
                                                (7, 4),
                                                (8, 1),
-                                               (9, 2);
+                                               (9, 2),
+                                               (11, 3),
+                                               (11, 4),
+                                               (12, 5),
+                                               (13, 6),
+                                               (14, 7),
+                                               (15, 8),
+                                               (16, 9),
+                                               (17, 10),
+                                               (18, 11),
+                                               (19, 12),
+                                               (20, 13);
 
 
 -- 일반 댓글 (1~6)
@@ -109,15 +130,38 @@ INSERT INTO post_comment (content, post_id, member_id) VALUES
                                                            ('대단합니다...', 3, 1),       -- 3
                                                            ('사진 공유좀요!', 4, 2),     -- 4
                                                            ('식단 너무 공감...', 5, 3),   -- 5
-                                                           ('화이팅 해요!', 6, 4);       -- 6
+                                                           ('화이팅 해요!', 6, 4),       -- 6
+                                                           ('PR 축하드립니다!', 11, 8),      -- 11
+                                                           ('와 레시피 감사해요', 12, 9),     -- 12
+                                                           ('용기내신 거 멋져요!', 13, 10),   -- 13
+                                                           ('저도 오늘 퇴사각임...', 14, 11), -- 14
+                                                           ('등 루틴 공유드려요', 15, 12),    -- 15
+                                                           ('닭가슴살 어떠세요?', 16, 13),   -- 16
+                                                           ('대박이네요 ㄷㄷ', 17, 14),       -- 17
+                                                           ('맞아요 분위기 좋아요', 18, 15),  -- 18
+                                                           ('저도 추천 궁금해요', 19, 16),    -- 19
+                                                           ('화이팅입니다!', 20, 17),          -- 20
+                                                           ('대단하십니다....!', 13, 3),          -- 21
+                                                           ('턱걸이 좋아욧~', 15, 7),          -- 22
+                                                           ('와 말도 안돼~', 17, 9);          -- 22
+
+
 
 -- 대댓글 (7~10)
 INSERT INTO post_comment (content, post_id, member_id, member_parent_comment_id) VALUES
-                                                                                     ('감사합니다 🙏', 1, 1, 1),   -- 7
-                                                                                     ('저도 해볼게요!', 2, 2, 2), -- 8
-                                                                                     ('저도 같은 상황입니다', 3, 5, 3), -- 9
-                                                                                     ('같이 힘냅시다 💪', 6, 3, 6); -- 10
-
+                                                                                     ('감사합니다 🙏', 1, 1, 1),          -- 7
+                                                                                     ('저도 해볼게요!', 2, 2, 2),        -- 8
+                                                                                     ('저도 같은 상황입니다', 3, 5, 3),  -- 9
+                                                                                     ('같이 힘냅시다 💪', 6, 3, 6),      -- 10
+                                                                                     ('감사합니다 😀', 11, 6, 7),       -- 21
+                                                                                     ('꼭 해드셔보세요!', 12, 7, 8),   -- 22
+                                                                                     ('감사합니다!', 13, 8, 9),         -- 23
+                                                                                     ('진짜요 ㅠㅠ', 14, 9, 10),         -- 24
+                                                                                     ('오 괜찮겠네요', 16, 11, 12),     -- 26
+                                                                                     ('ㅎㅎ 이정도면 거뜬해요!', 17, 12, 13),     -- 27
+                                                                                     ('저도 동의합니다', 18, 13, 14),   -- 28
+                                                                                     ('추천 해주세용 ㅠㅠ', 19, 14, 15),   -- 29
+                                                                                     ('힘낼게요 감사합니다!', 20, 1, 16);           -- 30
 
 INSERT INTO comment_like (post_comment_id, member_id) VALUES
                                                           (1, 2),
@@ -129,8 +173,27 @@ INSERT INTO comment_like (post_comment_id, member_id) VALUES
                                                           (6, 2),
                                                           (7, 5),
                                                           (8, 4),
-                                                          (9, 3);
-
+                                                          (9, 3),
+                                                          (11, 3),
+                                                          (12, 4),
+                                                          (13, 5),
+                                                          (14, 6),
+                                                          (15, 7),
+                                                          (16, 8),
+                                                          (17, 9),
+                                                          (18, 10),
+                                                          (19, 11),
+                                                          (20, 12),
+                                                          (21, 13),
+                                                          (22, 14),
+                                                          (23, 15),
+                                                          (24, 16),
+                                                          (25, 17),
+                                                          (26, 18),
+                                                          (27, 19),
+                                                          (28, 20),
+                                                          (29, 1),
+                                                          (30, 2);
 
 INSERT INTO extend_file_path (url_path) VALUES
                                             ('http://localhost:8081/uploads/'),
@@ -174,7 +237,17 @@ VALUES
     ('post7.jpg', '/img/community/post7.jpg', 'image/jpeg', '/upload/post7.jpg', 'ACTIVE', 'p7.jpg', 7,7),
     ('post8.jpg', '/img/community/post8.jpg', 'image/jpeg', '/upload/post8.jpg', 'ACTIVE', 'p8.jpg', 8,8),
     ('post9.jpg', '/img/community/post9.jpg', 'image/jpeg', '/upload/post9.jpg', 'ACTIVE', 'p9.jpg', 9,9),
-    ('post10.jpg', '/img/community/post10.jpg', 'image/jpeg', '/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,10);
+    ('post10.jpg', '/img/community/post10.jpg', 'image/jpeg', '/upload/post10.jpg', 'ACTIVE', 'p10.jpg', 10,10),
+    ('post11.jpg', '/img/community/post11.jpg', 'image/jpeg', '/upload/post11.jpg', 'ACTIVE', 'p11.jpg', 11, 11),
+    ('post12.jpg', '/img/community/post12.jpg', 'image/jpeg', '/upload/post12.jpg', 'ACTIVE', 'p12.jpg', 12, 12),
+    ('post13.jpg', '/img/community/post13.jpg', 'image/jpeg', '/upload/post13.jpg', 'ACTIVE', 'p13.jpg', 13, 13),
+    ('post14.jpg', '/img/community/post14.jpg', 'image/jpeg', '/upload/post14.jpg', 'ACTIVE', 'p14.jpg', 14, 14),
+    ('post15.jpg', '/img/community/post15.jpg', 'image/jpeg', '/upload/post15.jpg', 'ACTIVE', 'p15.jpg', 15, 15),
+    ('post16.jpg', '/img/community/post16.jpg', 'image/jpeg', '/upload/post16.jpg', 'ACTIVE', 'p16.jpg', 16, 16),
+    ('post17.jpg', '/img/community/post17.jpg', 'image/jpeg', '/upload/post17.jpg', 'ACTIVE', 'p17.jpg', 17, 17),
+    ('post18.jpg', '/img/community/post18.jpg', 'image/jpeg', '/upload/post18.jpg', 'ACTIVE', 'p18.jpg', 18, 18),
+    ('post19.jpg', '/img/community/post19.jpg', 'image/jpeg', '/upload/post19.jpg', 'ACTIVE', 'p19.jpg', 19, 19),
+    ('post20.jpg', '/img/community/post20.jpg', 'image/jpeg', '/upload/post20.jpg', 'ACTIVE', 'p20.jpg', 20, 20);
 
 
 INSERT INTO upload_file (
@@ -857,23 +930,23 @@ VALUES
 -- ----------------------------
 INSERT INTO allergy (name) VALUES
                                ('난류(가금류)'),
-                                ('우유'),
-                                ('메밀'),
-                                ('땅콩'),
-                                ('대두'),
-                                ('밀'),
-                                ('고등어'),
-                                ('게'),
-                                ('새우'),
-                                ('돼지고기'),
-                                ('복숭아'),
-                                ('토마토'),
-                                ('아황산염'),
-                                ('호두'),
-                                ('닭고기'),
-                                ('소고기'),
-                                ('오징어'),
-                                ('조개류(굴, 전복, 홍합 포함)');
+                               ('우유'),
+                               ('메밀'),
+                               ('땅콩'),
+                               ('대두'),
+                               ('밀'),
+                               ('고등어'),
+                               ('게'),
+                               ('새우'),
+                               ('돼지고기'),
+                               ('복숭아'),
+                               ('토마토'),
+                               ('아황산염'),
+                               ('호두'),
+                               ('닭고기'),
+                               ('소고기'),
+                               ('오징어'),
+                               ('조개류(굴, 전복, 홍합 포함)');
 
 -- ----------------------------
 -- 2. member_allergy (회원의 알러지 정보) 더미 데이터
